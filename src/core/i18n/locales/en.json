@@ -1,0 +1,13 @@
+{
+  "test_button": "Example Button",
+  "english": "English",
+  "spanish": "Spanish",
+  "components": {
+    "modals": {
+      "localModal": {
+        "cancel": "Cancel",
+        "save": "Save"
+      }
+    }
+  }
+}

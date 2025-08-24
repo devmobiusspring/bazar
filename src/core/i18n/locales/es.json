@@ -1,0 +1,13 @@
+{
+  "test_button": "Boton de prueba",
+  "english": "English",
+  "spanish": "Spanish",
+  "components": {
+    "modals": {
+      "localModal": {
+        "cancel": "Cancelar",
+        "save": "Guardar"
+      }
+    }
+  }
+}
