@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 import {
   Box,
@@ -11,12 +12,12 @@ import {
   TextField,
 } from '@mui/material';
 import {
-  Add,
-  Remove,
-  Delete,
-  ShoppingCartOutlined,
+  AddRounded,
+  RemoveRounded,
+  DeleteRounded,
+  ShoppingCartRounded,
 } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import TopAppBar from '../components/layout/TopAppBar';
 import EmptyState from '../components/common/EmptyState';
 import LoadingSkeleton from '../components/common/LoadingSkeleton';
@@ -34,7 +35,7 @@ interface CartItemWithProduct extends CartItem {
 }
 
 const CartPage: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [cartItems, setCartItems] = useState<CartItemWithProduct[]>([]);
   const [totals, setTotals] = useState({ subtotal: 0, shipping: 0, total: 0 });
   const [loading, setLoading] = useState(true);
@@ -106,11 +107,11 @@ const CartPage: React.FC = () => {
   };
 
   const handleProductClick = (productId: string) => {
-    navigate(`/product/${productId}`);
+    router.push(`/product/${productId}`);
   };
 
   const handleCheckout = () => {
-    navigate('/checkout');
+    router.push('/checkout');
   };
 
   if (loading) {
@@ -129,11 +130,11 @@ const CartPage: React.FC = () => {
       <Box>
         <TopAppBar title="Carrito" showBack />
         <EmptyState
-          icon={<ShoppingCartOutlined />}
+          icon={<ShoppingCartRounded />}
           title="Tu carrito está vacío"
           description="Agrega productos a tu carrito para continuar con tu compra"
           actionLabel="Explorar productos"
-          onAction={() => navigate('/')}
+          onAction={() => router.push('/')}
         />
       </Box>
     );
@@ -197,7 +198,7 @@ const CartPage: React.FC = () => {
                         onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
                         disabled={item.quantity <= 1}
                       >
-                        <Remove />
+                        <RemoveRounded />
                       </IconButton>
                       
                       <TextField
@@ -220,7 +221,7 @@ const CartPage: React.FC = () => {
                         onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
                         disabled={item.quantity >= item.product.stock}
                       >
-                        <Add />
+                        <AddRounded />
                       </IconButton>
 
                       <IconButton
@@ -228,7 +229,7 @@ const CartPage: React.FC = () => {
                         onClick={() => handleRemoveItem(item.productId)}
                         sx={{ ml: 'auto', color: 'error.main' }}
                       >
-                        <Delete />
+                        <DeleteRounded />
                       </IconButton>
                     </Box>
                   </Box>

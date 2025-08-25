@@ -1,24 +1,354 @@
 "use client";
-import { Box, Button, Typography } from "@mui/material";
-import Link from "next/link";
+import React, { useState, useEffect } from 'react';
+import {
+  Box,
+  Typography,
+  Chip,
+  Grid,
+  Container,
+  Avatar,
+} from '@mui/material';
+import { useRouter } from 'next/navigation';
+import {
+  RedeemRounded,
+  PhoneAndroidRounded,
+  RoofingRounded,
+  ToysRounded,
+} from '@mui/icons-material';
+import TopAppBar from '../components/layout/TopAppBar';
+import ProductCard from '../components/common/ProductCard';
+import LoadingSkeleton from '../components/common/LoadingSkeleton';
+import { Product, Category } from '../types';
+import { getProducts, getRecentlyViewed, getRecommendedProducts } from '../services/productService';
+import { getCategories } from '../services/categoryService';
+import { toggleFavoriteProduct, getFavoriteProducts } from '../services/userService';
+import { addToRecentlyViewed } from '../services/productService';
 
 export default function HomePage() {
-  return (
-    <Box sx={{ p: 4 }}>
-      <Typography variant="h3" gutterBottom>
-        Next.js + MUI + Redux Starter
-      </Typography>
-      <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-        Use this template to bootstrap new projects with the current stack.
-      </Typography>
-      <Box sx={{ display: "flex", gap: 2 }}>
-        <Button component={Link} href="/auth" variant="contained" color="primary">
-          Go to Sign In
-        </Button>
-        <Button component={Link} href="/" variant="outlined" color="secondary">
-          Explore UI
-        </Button>
+  const router = useRouter();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [recentlyViewed, setRecentlyViewed] = useState<Product[]>([]);
+  const [recommendedProducts, setRecommendedProducts] = useState<Product[]>([]);
+  const [exploreProducts, setExploreProducts] = useState<Product[]>([]);
+  const [favoriteProducts, setFavoriteProducts] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const [
+        categoriesData,
+        recentData,
+        recommendedData,
+        exploreData,
+        favoritesData,
+      ] = await Promise.all([
+        getCategories(),
+        getRecentlyViewed(),
+        getRecommendedProducts(),
+        getProducts(),
+        getFavoriteProducts('1'),
+      ]);
+
+      setCategories(categoriesData);
+      setRecentlyViewed(recentData);
+      setRecommendedProducts(recommendedData);
+      setExploreProducts(exploreData);
+      setFavoriteProducts(favoritesData);
+    } catch (error) {
+      console.error('Error loading home data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleProductClick = (productId: string) => {
+    addToRecentlyViewed(productId);
+    router.push(`/product/${productId}`);
+  };
+
+  const handleFavoriteClick = async (productId: string) => {
+    try {
+      const isFavorite = await toggleFavoriteProduct('1', productId);
+      if (isFavorite) {
+        setFavoriteProducts([...favoriteProducts, productId]);
+      } else {
+        setFavoriteProducts(favoriteProducts.filter(id => id !== productId));
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+    }
+  };
+
+  const handleCategoryClick = (categoryId: string) => {
+    router.push(`/category/${categoryId}`);
+  };
+
+  const handleViewAll = (section: string) => {
+    // Navigate to appropriate page based on section
+    switch (section) {
+      case 'recent':
+        router.push('/search?filter=recent');
+        break;
+      case 'recommended':
+        router.push('/search?filter=recommended');
+        break;
+      default:
+        router.push('/search');
+    }
+  };
+
+  if (loading) {
+    return (
+      <Box>
+        <TopAppBar />
+        <Container maxWidth="lg" sx={{ py: 2 }}>
+          <LoadingSkeleton variant="text" height={32} width="60%" />
+          <Box sx={{ display: 'flex', gap: 1, my: 2, overflowX: 'auto' }}>
+            {Array.from({ length: 6 }).map((_, index) => (
+              <LoadingSkeleton key={index} variant="text" height={32} width={80} />
+            ))}
+          </Box>
+          <LoadingSkeleton variant="product-card" count={6} />
+        </Container>
       </Box>
+    );
+  }
+
+  return (
+    <Box>
+      <TopAppBar />
+      
+      <Container maxWidth="lg" sx={{ py: 2 }}>
+        {/* Categories */}
+        <Box sx={{ mb: 3 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 2,
+              overflowX: 'auto',
+              pb: 1,
+              '&::-webkit-scrollbar': { display: 'none' },
+            }}
+          >
+            <Chip
+              icon={<RedeemRounded />}
+              label="Regalos"
+              onClick={() => handleCategoryClick('gifts')}
+              size="small"
+              sx={{
+                backgroundColor: 'rgba(46,47,52,0.08)',
+                color: '#2e2f34',
+                fontSize: '12px',
+                lineHeight: '16px',
+                letterSpacing: '0.1px',
+                '&:hover': {
+                  backgroundColor: 'rgba(46,47,52,0.12)',
+                },
+              }}
+            />
+            <Chip
+              icon={<PhoneAndroidRounded />}
+              label="Electrónicos"
+              onClick={() => handleCategoryClick('electronics')}
+              size="small"
+              sx={{
+                backgroundColor: 'rgba(46,47,52,0.08)',
+                color: '#2e2f34',
+                fontSize: '12px',
+                lineHeight: '16px',
+                letterSpacing: '0.1px',
+                '&:hover': {
+                  backgroundColor: 'rgba(46,47,52,0.12)',
+                },
+              }}
+            />
+            <Chip
+              icon={<RoofingRounded />}
+              label="Hogar"
+              onClick={() => handleCategoryClick('home')}
+              size="small"
+              sx={{
+                backgroundColor: 'rgba(46,47,52,0.08)',
+                color: '#2e2f34',
+                fontSize: '12px',
+                lineHeight: '16px',
+                letterSpacing: '0.1px',
+                '&:hover': {
+                  backgroundColor: 'rgba(46,47,52,0.12)',
+                },
+              }}
+            />
+            <Chip
+              icon={<ToysRounded />}
+              label="Juguetes"
+              onClick={() => handleCategoryClick('toys')}
+              size="small"
+              sx={{
+                backgroundColor: 'rgba(46,47,52,0.08)',
+                color: '#2e2f34',
+                fontSize: '12px',
+                lineHeight: '16px',
+                letterSpacing: '0.1px',
+                '&:hover': {
+                  backgroundColor: 'rgba(46,47,52,0.12)',
+                },
+              }}
+            />
+          </Box>
+        </Box>
+
+        {/* Recently Viewed */}
+        {recentlyViewed.length > 0 && (
+          <Box sx={{ mb: 6 }}>
+            <Box sx={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center', 
+              mb: 4 
+            }}>
+              <Typography 
+                variant="h5" 
+                sx={{ 
+                  fontWeight: 700,
+                  fontSize: '20px',
+                  lineHeight: '26px',
+                  color: '#2e2f34',
+                }}
+              >
+                Visto recientemente
+              </Typography>
+              <Typography
+                variant="body2"
+                onClick={() => handleViewAll('recent')}
+                sx={{
+                  fontSize: '14px',
+                  lineHeight: '20px',
+                  color: '#2e2f34',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    color: 'primary.main',
+                  },
+                }}
+              >
+                Ver todos
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2,
+                overflowX: 'auto',
+                pb: 1,
+                '&::-webkit-scrollbar': { display: 'none' },
+              }}
+            >
+              {recentlyViewed.map((product) => (
+                <Box key={product.id} sx={{ minWidth: 150 }}>
+                  <ProductCard
+                    product={product}
+                    onProductClick={handleProductClick}
+                    onFavoriteClick={handleFavoriteClick}
+                    isFavorite={favoriteProducts.includes(product.id)}
+                    compact
+                  />
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        )}
+
+        {/* Recommended Products */}
+        <Box sx={{ mb: 6 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center', 
+            mb: 4 
+          }}>
+            <Typography 
+              variant="h5" 
+              sx={{ 
+                fontWeight: 700,
+                fontSize: '20px',
+                lineHeight: '26px',
+                color: '#2e2f34',
+              }}
+            >
+              Para tí
+            </Typography>
+            <Typography
+              variant="body2"
+              onClick={() => handleViewAll('recommended')}
+              sx={{
+                fontSize: '14px',
+                lineHeight: '20px',
+                color: '#2e2f34',
+                textDecoration: 'underline',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'primary.main',
+                },
+              }}
+            >
+              Ver todos
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 2,
+              overflowX: 'auto',
+              pb: 1,
+              '&::-webkit-scrollbar': { display: 'none' },
+            }}
+          >
+            {recommendedProducts.map((product) => (
+              <Box key={product.id} sx={{ minWidth: 150 }}>
+                <ProductCard
+                  product={product}
+                  onProductClick={handleProductClick}
+                  onFavoriteClick={handleFavoriteClick}
+                  isFavorite={favoriteProducts.includes(product.id)}
+                  compact
+                />
+              </Box>
+            ))}
+          </Box>
+        </Box>
+
+        {/* Explore Products Grid */}
+        <Box>
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              mb: 4,
+              fontWeight: 700,
+              fontSize: '20px',
+              lineHeight: '26px',
+              color: '#2e2f34',
+            }}
+          >
+            Explora
+          </Typography>
+          <Grid container spacing={2}>
+            {exploreProducts.map((product) => (
+              <Grid item xs={6} sm={4} md={3} key={product.id}>
+                <ProductCard
+                  product={product}
+                  onProductClick={handleProductClick}
+                  onFavoriteClick={handleFavoriteClick}
+                  isFavorite={favoriteProducts.includes(product.id)}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      </Container>
     </Box>
   );
 }

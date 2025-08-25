@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 import {
   Box,
@@ -9,8 +10,9 @@ import {
   Container,
   Divider,
 } from '@mui/material';
-import { Search, History, TrendingUp } from '@mui/icons-material';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { SearchRounded, HistoryRounded, TrendingUpRounded } from '@mui/icons-material';
+import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import TopAppBar from '../components/layout/TopAppBar';
 import ProductListItem from '../components/common/ProductListItem';
 import LoadingSkeleton from '../components/common/LoadingSkeleton';
@@ -22,8 +24,8 @@ import { toggleFavoriteProduct, getFavoriteProducts } from '../services/userServ
 import { recentSearches } from '../services/mockData';
 
 const SearchPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
   
   const [searchValue, setSearchValue] = useState(query);
@@ -72,12 +74,12 @@ const SearchPage: React.FC = () => {
   };
 
   const handleSearchSubmit = (searchQuery: string) => {
-    setSearchParams({ q: searchQuery });
+    router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
     performSearch(searchQuery);
   };
 
   const handleProductClick = (productId: string) => {
-    navigate(`/product/${productId}`);
+    router.push(`/product/${productId}`);
   };
 
   const handleFavoriteClick = async (productId: string) => {
@@ -128,7 +130,7 @@ const SearchPage: React.FC = () => {
                   variant="subtitle2"
                   sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}
                 >
-                  <History fontSize="small" />
+                  <HistoryRounded sx={{ mr: 1, color: 'text.secondary' }} />
                   Búsquedas recientes
                 </Typography>
                 <List>
@@ -154,7 +156,7 @@ const SearchPage: React.FC = () => {
                 variant="subtitle2"
                 sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}
               >
-                <TrendingUp fontSize="small" />
+                <TrendingUpRounded sx={{ mr: 1, color: 'text.secondary' }} />
                 Búsquedas populares
               </Typography>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -198,7 +200,7 @@ const SearchPage: React.FC = () => {
         ) : hasSearched ? (
           // No results
           <EmptyState
-            icon={<Search />}
+            icon={<SearchRounded />}
             title="No encontramos resultados"
             description={`No encontramos resultados para "${query}". Intenta con otras palabras clave.`}
           />

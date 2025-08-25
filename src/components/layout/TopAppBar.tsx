@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 import {
   AppBar,
@@ -7,14 +8,15 @@ import {
   InputBase,
   Box,
   Badge,
+  TextField,
 } from '@mui/material';
 import {
   ArrowBack,
-  Search,
-  ShoppingCart,
-  Menu,
+  SearchRounded,
+  ShoppingCartRounded,
+  MenuRounded,
 } from '@mui/icons-material';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useRouter, usePathname } from 'next/navigation';
 import { getCartItemCount } from '../../services/cartService';
 
 interface TopAppBarProps {
@@ -38,8 +40,8 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
   onSearchChange,
   onSearchSubmit,
 }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
   const [cartItemCount, setCartItemCount] = useState(0);
   const [scrolled, setScrolled] = useState(false);
 
@@ -65,11 +67,11 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
   }, []);
 
   const handleBack = () => {
-    navigate(-1);
+    router.back();
   };
 
   const handleCartClick = () => {
-    navigate('/cart');
+    router.push('/cart');
   };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -79,7 +81,7 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
     }
   };
 
-  const isSearchPage = location.pathname === '/search';
+  const isSearchPage = pathname === '/search';
 
   return (
     <AppBar
@@ -105,7 +107,7 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
             </IconButton>
           ) : (
             <IconButton edge="start" sx={{ mr: 1 }}>
-              <Menu />
+              <MenuRounded />
             </IconButton>
           )}
         </Box>
@@ -118,27 +120,32 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
             </Typography>
           ) : showSearch && !isSearchPage ? (
             <Box
-              onClick={onSearchClick || (() => navigate('/search'))}
+              onClick={onSearchClick || (() => router.push('/search'))}
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                backgroundColor: 'action.hover',
-                borderRadius: 3,
-                px: 2,
-                py: 1,
+                backgroundColor: 'rgba(80,81,87,0.08)',
+                borderRadius: '999px',
+                px: 3,
+                py: 2,
                 cursor: 'pointer',
                 '&:hover': {
-                  backgroundColor: 'action.selected',
+                  backgroundColor: 'rgba(80,81,87,0.12)',
                 },
               }}
             >
-              <Search sx={{ mr: 1, color: 'text.secondary' }} />
+              <SearchRounded sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} />
               <Typography
                 variant="body2"
                 color="text.secondary"
-                sx={{ flexGrow: 1 }}
+                sx={{ 
+                  flexGrow: 1,
+                  fontSize: '14px',
+                  lineHeight: '20px',
+                  letterSpacing: '0.1px',
+                }}
               >
-                Buscar en Bazar Digital
+                Buscar en Bazar
               </Typography>
             </Box>
           ) : isSearchPage ? (
@@ -148,21 +155,28 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                backgroundColor: 'action.hover',
-                borderRadius: 3,
-                px: 2,
-                py: 1,
+                backgroundColor: 'rgba(80,81,87,0.08)',
+                borderRadius: '999px',
+                px: 3,
+                py: 2,
               }}
             >
-              <Search sx={{ mr: 1, color: 'text.secondary' }} />
+              <SearchRounded sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} />
               <InputBase
-                placeholder="Buscar en Bazar Digital"
+                placeholder="Buscar en Bazar"
                 value={searchValue}
                 onChange={(e) => onSearchChange?.(e.target.value)}
                 sx={{
                   flexGrow: 1,
+                  fontSize: '14px',
+                  lineHeight: '20px',
+                  letterSpacing: '0.1px',
                   '& input': {
                     padding: 0,
+                    '&::placeholder': {
+                      color: 'rgba(46,47,52,0.7)',
+                      opacity: 1,
+                    },
                   },
                 }}
                 autoFocus
@@ -175,7 +189,7 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
         {showCart && (
           <IconButton onClick={handleCartClick} sx={{ ml: 1 }}>
             <Badge badgeContent={cartItemCount} color="error">
-              <ShoppingCart />
+              <ShoppingCartRounded />
             </Badge>
           </IconButton>
         )}

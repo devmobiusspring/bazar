@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import {
   Box,
@@ -9,32 +10,35 @@ import {
   Grid,
 } from '@mui/material';
 import {
-  Store,
-  PhotoCamera,
-  LocalShipping,
-  TrendingUp,
+  PhotoCameraRounded,
+  AddPhotoAlternateRounded,
+  CategoryRounded,
+  DescriptionRounded,
+  AttachMoneyRounded,
+  LocalShippingRounded,
+  SaveRounded,
 } from '@mui/icons-material';
 import TopAppBar from '../components/layout/TopAppBar';
 
 const SellPage: React.FC = () => {
   const features = [
     {
-      icon: <Store />,
+      icon: <AddPhotoAlternateRounded />,
       title: 'Crea tu tienda',
       description: 'Configura tu tienda en minutos y comienza a vender',
     },
     {
-      icon: <PhotoCamera />,
+      icon: <PhotoCameraRounded />,
       title: 'Sube tus productos',
       description: 'Agrega fotos y descripciones de tus productos',
     },
     {
-      icon: <LocalShipping />,
+      icon: <LocalShippingRounded />,
       title: 'Gestiona envíos',
       description: 'Configura opciones de envío y seguimiento',
     },
     {
-      icon: <TrendingUp />,
+      icon: <SaveRounded />,
       title: 'Aumenta tus ventas',
       description: 'Usa nuestras herramientas para hacer crecer tu negocio',
     },

@@ -1,29 +1,30 @@
+"use client";
 import React, { useState } from 'react';
 import { Box, BottomNavigation, BottomNavigationAction } from '@mui/material';
 import {
-  Home,
-  Store,
-  ShoppingCart,
-  Person,
-  Sell,
+  HomeRounded,
+  StoreRounded,
+  ShoppingCartRounded,
+  PersonRounded,
+  SellRounded,
 } from '@mui/icons-material';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface AppLayoutProps {
   children: React.ReactNode;
 }
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const getBottomNavValue = () => {
-    const path = location.pathname;
-    if (path === '/' || path.startsWith('/home')) return 0;
-    if (path.startsWith('/shops')) return 1;
-    if (path.startsWith('/cart')) return 2;
-    if (path.startsWith('/profile')) return 3;
-    if (path.startsWith('/sell')) return 4;
+    if (!pathname) return 0;
+    if (pathname === '/' || pathname.startsWith('/home')) return 0;
+    if (pathname.startsWith('/shops')) return 1;
+    if (pathname.startsWith('/cart')) return 2;
+    if (pathname.startsWith('/profile')) return 3;
+    if (pathname.startsWith('/sell')) return 4;
     return 0;
   };
 
@@ -34,27 +35,27 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     
     switch (newValue) {
       case 0:
-        navigate('/');
+        router.push('/');
         break;
       case 1:
-        navigate('/shops');
+        router.push('/shops');
         break;
       case 2:
-        navigate('/cart');
+        router.push('/cart');
         break;
       case 3:
-        navigate('/profile');
+        router.push('/profile');
         break;
       case 4:
-        navigate('/sell');
+        router.push('/sell');
         break;
     }
   };
 
   // Hide bottom navigation on certain pages
-  const hideBottomNav = location.pathname.includes('/search') || 
-                       location.pathname.includes('/checkout') ||
-                       location.pathname.includes('/product/');
+  const hideBottomNav = !pathname || pathname.includes('/search') || 
+                       pathname.includes('/checkout') ||
+                       pathname.includes('/product/');
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -79,23 +80,23 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         >
           <BottomNavigationAction
             label="Inicio"
-            icon={<Home />}
+            icon={<HomeRounded />}
           />
           <BottomNavigationAction
             label="Tiendas"
-            icon={<Store />}
+            icon={<StoreRounded />}
           />
           <BottomNavigationAction
             label="Carrito"
-            icon={<ShoppingCart />}
+            icon={<ShoppingCartRounded />}
           />
           <BottomNavigationAction
             label="Perfil"
-            icon={<Person />}
+            icon={<PersonRounded />}
           />
           <BottomNavigationAction
             label="Vender"
-            icon={<Sell />}
+            icon={<SellRounded />}
           />
         </BottomNavigation>
       )}

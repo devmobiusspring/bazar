@@ -1,0 +1,23 @@
+# Figma MCP Tool Usage Rules
+
+## Component Filtering
+When using the Figma MCP tool to generate UI code, **ALWAYS ignore** the following components as they are only for Figma mock purposes:
+
+- **Status Bar/iPhone** - This is a mock component showing device status
+- **URL Bar/iPhone** - This is a mock component showing browser navigation
+
+## Best Practices
+1. Focus on actual UI components that represent real functionality
+2. Skip mock/placeholder components that don't contribute to the actual interface
+3. Look for components with meaningful names that represent real UI elements
+4. When in doubt, examine the component hierarchy to identify mock vs. real components
+
+## Usage
+- Use `mcp_Figma_get_code` to generate code for selected components
+- Use `mcp_Figma_get_image` to generate images for reference
+- Use `mcp_Figma_get_variable_defs` to extract design tokens
+- Always filter out mock components before generating code
+description:
+globs:
+alwaysApply: false
+---

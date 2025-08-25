@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 import {
   Box,
@@ -17,15 +18,20 @@ import {
   Fab,
 } from '@mui/material';
 import {
-  Favorite,
-  FavoriteBorder,
-  Share,
-  Store,
-  LocalShipping,
-  Security,
-  ShoppingCart,
+  FavoriteRounded,
+  FavoriteBorderRounded,
+  ShareRounded,
+  LocalShippingRounded,
+  SecurityRounded,
+  UndoRounded,
+  StarRounded,
+  StarBorderRounded,
+  StarHalfRounded,
+  AddRounded,
+  RemoveRounded,
+  ShoppingCartRounded,
 } from '@mui/icons-material';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -43,7 +49,7 @@ import { mockReviews } from '../services/mockData';
 
 const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+  const router = useRouter();
   
   const [product, setProduct] = useState<Product | null>(null);
   const [shop, setShop] = useState<Shop | null>(null);
@@ -57,6 +63,10 @@ const ProductDetailPage: React.FC = () => {
       loadProductData(id);
     }
   }, [id]);
+
+  if (!id) {
+    return <div>Product not found</div>;
+  }
 
   const loadProductData = async (productId: string) => {
     try {
@@ -107,12 +117,12 @@ const ProductDetailPage: React.FC = () => {
 
   const handleShopClick = () => {
     if (shop) {
-      navigate(`/shop/${shop.id}`);
+      router.push(`/shop/${shop.id}`);
     }
   };
 
   const handleProductClick = (productId: string) => {
-    navigate(`/product/${productId}`);
+    router.push(`/product/${productId}`);
   };
 
   if (loading) {
@@ -192,16 +202,16 @@ const ProductDetailPage: React.FC = () => {
             sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
           >
             {isFavorite ? (
-              <Favorite color="error" />
+              <FavoriteRounded color="error" fontSize="large" />
             ) : (
-              <FavoriteBorder />
+              <FavoriteBorderRounded fontSize="large" />
             )}
           </Fab>
           <Fab
             size="small"
             sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
           >
-            <Share />
+            <ShareRounded />
           </Fab>
         </Box>
       </Box>
@@ -271,7 +281,7 @@ const ProductDetailPage: React.FC = () => {
               mb: 2,
             }}
           >
-            <LocalShipping color="primary" />
+            <LocalShippingRounded sx={{ fontSize: 20 }} />
             <Box>
               <Typography variant="body2" sx={{ fontWeight: 500 }}>
                 {product.shipping.free ? 'Envío gratis' : `Envío Q${product.shipping.cost}`}
@@ -294,13 +304,13 @@ const ProductDetailPage: React.FC = () => {
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <Avatar src={shop.avatar} sx={{ width: 50, height: 50 }}>
-                  <Store />
+                  <SecurityRounded sx={{ fontSize: 20 }} />
                 </Avatar>
                 <Box sx={{ flexGrow: 1 }}>
                   <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
                     {shop.name}
                     {shop.isVerified && (
-                      <Security
+                      <SecurityRounded
                         color="primary"
                         sx={{ ml: 1, fontSize: 16 }}
                       />
@@ -425,7 +435,7 @@ const ProductDetailPage: React.FC = () => {
           fullWidth
           size="large"
           onClick={handleAddToCart}
-          startIcon={<ShoppingCart />}
+          startIcon={<ShoppingCartRounded />}
         >
           Agregar al carrito
         </Button>

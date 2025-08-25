@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 import {
   Box,
@@ -14,24 +15,24 @@ import {
   IconButton,
 } from '@mui/material';
 import {
-  Person,
-  ShoppingBag,
-  Favorite,
-  LocationOn,
-  AccountBalanceWallet,
-  Settings,
-  ExitToApp,
-  ChevronRight,
-  Edit,
+  PersonRounded,
+  SettingsRounded,
+  HelpRounded,
+  InfoRounded,
+  LogoutRounded,
+  EditRounded,
+  LocationOnRounded,
+  PhoneRounded,
+  EmailRounded,
 } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import TopAppBar from '../components/layout/TopAppBar';
 import LoadingSkeleton from '../components/common/LoadingSkeleton';
 import { User } from '../types';
 import { getCurrentUser } from '../services/userService';
 
 const ProfilePage: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -52,45 +53,51 @@ const ProfilePage: React.FC = () => {
 
   const menuItems = [
     {
-      icon: <Person />,
+      icon: <PersonRounded />,
       title: 'Mi perfil',
       subtitle: 'Información personal',
       path: '/profile/edit',
     },
     {
-      icon: <ShoppingBag />,
-      title: 'Mis pedidos',
-      subtitle: 'Historial de compras',
-      path: '/profile/orders',
-    },
-    {
-      icon: <Favorite />,
-      title: 'Favoritos',
-      subtitle: 'Productos guardados',
-      path: '/profile/favorites',
-    },
-    {
-      icon: <LocationOn />,
+      icon: <LocationOnRounded />,
       title: 'Direcciones',
       subtitle: 'Direcciones de envío',
       path: '/profile/addresses',
     },
     {
-      icon: <AccountBalanceWallet />,
-      title: 'Billetera',
-      subtitle: 'Métodos de pago',
-      path: '/profile/wallet',
+      icon: <PhoneRounded />,
+      title: 'Contacto',
+      subtitle: 'Información de contacto',
+      path: '/profile/contact',
     },
     {
-      icon: <Settings />,
+      icon: <EmailRounded />,
+      title: 'Información',
+      subtitle: 'Acerca de la app',
+      path: '/profile/info',
+    },
+    {
+      icon: <SettingsRounded />,
       title: 'Configuración',
       subtitle: 'Preferencias de la app',
       path: '/profile/settings',
     },
+    {
+      icon: <HelpRounded />,
+      title: 'Ayuda',
+      subtitle: 'Preguntas frecuentes',
+      path: '/profile/help',
+    },
+    {
+      icon: <InfoRounded />,
+      title: 'Acerca de',
+      subtitle: 'Sobre nosotros',
+      path: '/profile/about',
+    },
   ];
 
   const handleMenuItemClick = (path: string) => {
-    navigate(path);
+    router.push(path);
   };
 
   const handleLogout = () => {
@@ -149,8 +156,8 @@ const ProfilePage: React.FC = () => {
                   </Typography>
                 )}
               </Box>
-              <IconButton onClick={() => navigate('/profile/edit')}>
-                <Edit />
+              <IconButton onClick={() => router.push('/profile/edit')}>
+                <EditRounded />
               </IconButton>
             </Box>
           </CardContent>
@@ -174,7 +181,6 @@ const ProfilePage: React.FC = () => {
                     secondary={item.subtitle}
                     primaryTypographyProps={{ fontWeight: 500 }}
                   />
-                  <ChevronRight color="action" />
                 </ListItem>
                 {index < menuItems.length - 1 && <Divider />}
               </React.Fragment>
@@ -189,7 +195,7 @@ const ProfilePage: React.FC = () => {
               sx={{ py: 2, color: 'error.main' }}
             >
               <ListItemIcon>
-                <ExitToApp color="error" />
+                <LogoutRounded color="error" />
               </ListItemIcon>
               <ListItemText
                 primary="Cerrar sesión"

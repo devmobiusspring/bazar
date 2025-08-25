@@ -1,0 +1,126 @@
+---
+alwaysApply: true
+description: Material-UI components and typography enforcement
+globs: *.tsx,*.ts,*.jsx,*.js
+---
+
+# Material-UI Components and Typography Rules
+
+## Core Principles
+- **ALWAYS use Material-UI components** - Never use other UI frameworks or plain HTML elements for UI components
+- **ALWAYS use Material-UI Typography** - Never use regular HTML text elements (`<p>`, `<h1>`, `<span>`, etc.) or plain text
+- **Follow the established theme structure** in [src/theme/index.ts](mdc:src/theme/index.ts)
+
+## Required Imports
+Always import Material-UI components from their specific modules:
+```typescript
+import { Typography, Box, Container, Card, Button, TextField } from '@mui/material';
+import { styled } from '@mui/material/styles';
+```
+
+## Typography Rules
+- **NEVER use HTML text elements**: `<h1>`, `<h2>`, `<h3>`, `<h4>`, `<h5>`, `<h6>`, `<p>`, `<span>`, `<div>` with text content
+- **ALWAYS use Typography component** for all text content:
+  ```typescript
+  // ❌ NEVER do this
+  <h1>Page Title</h1>
+  <p>Some paragraph text</p>
+  <span>Label text</span>
+  
+  // ✅ ALWAYS do this
+  <Typography variant="h1">Page Title</Typography>
+  <Typography variant="body1">Some paragraph text</Typography>
+  <Typography variant="caption">Label text</Typography>
+  ```
+
+## Component Usage Rules
+
+### Layout Components
+- Use `Container` for page-level containers
+- Use `Box` for flexible layout and spacing
+- Use `Grid` for responsive layouts
+- Use `Stack` for simple directional layouts
+
+### Form Components
+- Use `TextField` for all text inputs
+- Use `Button` for all buttons
+- Use `Checkbox`, `Radio`, `Switch` for form controls
+- Use `Select`, `MenuItem` for dropdowns
+
+### Display Components
+- Use `Card` for content containers
+- Use `Paper` for elevated surfaces
+- Use `Chip` for tags and labels
+- Use `Avatar` for user images
+- Use `Badge` for notifications
+
+### Navigation Components
+- Use `AppBar` for top navigation
+- Use `Drawer` for side navigation
+- Use `BottomNavigation` for bottom navigation
+- Use `Breadcrumbs` for navigation paths
+
+## Theme Integration
+- Always use theme values through the `sx` prop or `styled` components
+- Reference theme typography variants as defined in [src/theme/typography/index.ts](mdc:src/theme/typography/index.ts)
+- Use theme spacing, colors, and breakpoints from [src/theme/](mdc:src/theme/)
+
+## Examples of Correct Usage
+
+### Typography Variants
+```typescript
+<Typography variant="h1" component="h1">Main Title</Typography>
+<Typography variant="h2" component="h2">Section Title</Typography>
+<Typography variant="body1">Regular paragraph text</Typography>
+<Typography variant="body2">Secondary text</Typography>
+<Typography variant="caption">Small caption text</Typography>
+<Typography variant="overline">Overline text</Typography>
+```
+
+### Layout with Material-UI
+```typescript
+<Container maxWidth="lg">
+  <Box sx={{ py: 4 }}>
+    <Typography variant="h1" gutterBottom>
+      Page Title
+    </Typography>
+    <Card sx={{ p: 3, mt: 2 }}>
+      <Typography variant="body1">
+        Card content goes here
+      </Typography>
+    </Card>
+  </Box>
+</Container>
+```
+
+### Forms with Material-UI
+```typescript
+<Box component="form" sx={{ mt: 2 }}>
+  <TextField
+    fullWidth
+    label="Email"
+    variant="outlined"
+    margin="normal"
+  />
+  <Button
+    type="submit"
+    variant="contained"
+    sx={{ mt: 2 }}
+  >
+    <Typography variant="button">Submit</Typography>
+  </Button>
+</Box>
+```
+
+## Forbidden Practices
+- ❌ Using other UI frameworks (Bootstrap, Tailwind, Ant Design, etc.)
+- ❌ Using plain HTML elements for UI (`<button>`, `<input>`, `<div>` for layout)
+- ❌ Using regular text elements (`<p>`, `<h1>`, `<span>`, etc.)
+- ❌ Inline styles instead of `sx` prop or theme integration
+- ❌ Custom CSS classes that override Material-UI styles
+
+## Theme Reference Files
+- Main theme configuration: [src/theme/index.ts](mdc:src/theme/index.ts)
+- Typography settings: [src/theme/typography/index.ts](mdc:src/theme/typography/index.ts)
+- Component overrides: [src/theme/overrides/](mdc:src/theme/overrides/)
+- Color palette: [src/theme/palette/index.ts](mdc:src/theme/palette/index.ts)

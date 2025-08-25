@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 import {
   Box,
@@ -10,8 +11,8 @@ import {
   Container,
   Chip,
 } from '@mui/material';
-import { Store, Verified } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { StoreRounded, VerifiedRounded } from '@mui/icons-material';
+import { useRouter } from 'next/navigation';
 import TopAppBar from '../components/layout/TopAppBar';
 import LoadingSkeleton from '../components/common/LoadingSkeleton';
 import { Shop, Category } from '../types';
@@ -19,7 +20,7 @@ import { getPopularShops } from '../services/shopService';
 import { getCategories } from '../services/categoryService';
 
 const ShopsPage: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [shops, setShops] = useState<Shop[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -46,7 +47,7 @@ const ShopsPage: React.FC = () => {
   };
 
   const handleShopClick = (shopId: string) => {
-    navigate(`/shop/${shopId}`);
+    router.push(`/shop/${shopId}`);
   };
 
   const handleCategoryClick = (categoryId: string) => {
@@ -130,7 +131,7 @@ const ShopsPage: React.FC = () => {
                         src={shop.avatar}
                         sx={{ width: 60, height: 60 }}
                       >
-                        <Store />
+                        <StoreRounded sx={{ fontSize: 40, color: 'primary.main' }} />
                       </Avatar>
                       <Box sx={{ flexGrow: 1 }}>
                         <Typography
@@ -144,7 +145,7 @@ const ShopsPage: React.FC = () => {
                         >
                           {shop.name}
                           {shop.isVerified && (
-                            <Verified color="primary" fontSize="small" />
+                            <VerifiedRounded sx={{ fontSize: 16, color: 'success.main' }} />
                           )}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">

@@ -7,7 +7,7 @@ import {
   Chip,
   Rating,
 } from '@mui/material';
-import { Favorite, FavoriteBorder } from '@mui/icons-material';
+import { FavoriteRounded, FavoriteBorderRounded } from '@mui/icons-material';
 import { Product } from '../../types';
 
 interface ProductListItemProps {
@@ -85,9 +85,9 @@ const ProductListItem: React.FC<ProductListItemProps> = ({
             size="small"
           >
             {isFavorite ? (
-              <Favorite color="error" fontSize="small" />
+              <FavoriteRounded color="error" fontSize="small" />
             ) : (
-              <FavoriteBorder fontSize="small" />
+              <FavoriteBorderRounded fontSize="small" />
             )}
           </IconButton>
         )}

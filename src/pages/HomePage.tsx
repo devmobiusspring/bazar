@@ -6,7 +6,7 @@ import {
   Grid,
   Container,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+// This file is no longer used - HomePage is now in src/app/page.tsx
 import TopAppBar from '../components/layout/TopAppBar';
 import ProductCard from '../components/common/ProductCard';
 import LoadingSkeleton from '../components/common/LoadingSkeleton';
