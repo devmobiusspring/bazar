@@ -100,7 +100,7 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
             ) : showSearch && !isSearchPage ? (
               // Default State - TextField with search appearance
               <TextField
-                placeholder="Search"
+                placeholder="Buscar en Bazar"
                 variant="filled"
                 size="small"
                 onClick={onSearchClick || (() => router.push('/search'))}
@@ -128,7 +128,7 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
                 sx={{ width: '100%' }}
               >
                 <TextField
-                  placeholder="Search"
+                  placeholder="Buscar en Bazar"
                   variant="filled"
                   size="small"
                   value={searchValue}

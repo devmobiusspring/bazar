@@ -54,9 +54,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <CardContent sx={{ p: 1 }}>
           <Typography
             variant="body1"
-            component="h3"
             sx={{
-              mb: 0.5,
+              mb: 0.25,
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
@@ -68,7 +67,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Typography
               variant="subtitle2"
-              component="span"
               sx={{ color: 'primary.main', fontWeight: 600 }}
             >
               Q{(discountedPrice || product.price).toLocaleString()}
