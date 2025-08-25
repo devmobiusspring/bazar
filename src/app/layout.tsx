@@ -17,18 +17,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <StoreProvider>
-        <ThemeModeProvider>
-          <ThemeComponent>
-            <body>
+      <body>
+        <StoreProvider>
+          <ThemeModeProvider>
+            <ThemeComponent>
               <AppLayout>
                 {children}
               </AppLayout>
               <SnackBarComponent />
-            </body>
-          </ThemeComponent>
-        </ThemeModeProvider>
-      </StoreProvider>
+            </ThemeComponent>
+          </ThemeModeProvider>
+        </StoreProvider>
+      </body>
     </html>
   );
 }
