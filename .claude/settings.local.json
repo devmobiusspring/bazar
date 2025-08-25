@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp:*)",
+      "mcp__Figma_Dev_Mode_MCP__get_code",
+      "mcp__Figma_Dev_Mode_MCP__get_image",
+      "mcp__playwright__browser_navigate",
+      "Bash(yarn dev)",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_resize",
+      "mcp__puppeteer__puppeteer_navigate",
+      "mcp__puppeteer__puppeteer_screenshot"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "Figma Dev Mode MCP",
+    "playwright",
+    "puppeteer"
+  ]
+}
