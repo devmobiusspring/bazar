@@ -17,6 +17,7 @@ import {
   CardContent,
   Fab,
 } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import {
   FavoriteRounded,
   FavoriteBorderRounded,
@@ -199,7 +200,7 @@ const ProductDetailPage: React.FC = () => {
           <Fab
             size="small"
             onClick={handleFavoriteClick}
-            sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
+            sx={{ backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.9) }}
           >
             {isFavorite ? (
               <FavoriteRounded color="error" fontSize="large" />
@@ -209,7 +210,7 @@ const ProductDetailPage: React.FC = () => {
           </Fab>
           <Fab
             size="small"
-            sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
+            sx={{ backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.9) }}
           >
             <ShareRounded />
           </Fab>
@@ -219,7 +220,7 @@ const ProductDetailPage: React.FC = () => {
       <Container maxWidth="lg" sx={{ px: 2 }}>
         {/* Product Info */}
         <Box sx={{ py: 2 }}>
-          <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
+          <Typography variant="h5" sx={{ mb: 1 }}>
             {product.name}
           </Typography>
 
@@ -233,7 +234,7 @@ const ProductDetailPage: React.FC = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
             <Typography
               variant="h4"
-              sx={{ fontWeight: 'bold', color: 'primary.main' }}
+              sx={{ color: 'primary.main' }}
             >
               Q{product.price.toLocaleString()}
             </Typography>
@@ -283,7 +284,7 @@ const ProductDetailPage: React.FC = () => {
           >
             <LocalShippingRounded sx={{ fontSize: 20 }} />
             <Box>
-              <Typography variant="body2" sx={{ fontWeight: 500 }}>
+              <Typography variant="body2">
                 {product.shipping.free ? 'Envío gratis' : `Envío Q${product.shipping.cost}`}
               </Typography>
               <Typography variant="caption" color="text.secondary">
@@ -297,7 +298,7 @@ const ProductDetailPage: React.FC = () => {
 
         {/* Shop Info */}
         <Box sx={{ py: 2 }}>
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ mb: 2 }}>
             Vendido por
           </Typography>
           <Card onClick={handleShopClick} sx={{ cursor: 'pointer' }}>
@@ -307,7 +308,7 @@ const ProductDetailPage: React.FC = () => {
                   <SecurityRounded sx={{ fontSize: 20 }} />
                 </Avatar>
                 <Box sx={{ flexGrow: 1 }}>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+                  <Typography variant="subtitle1">
                     {shop.name}
                     {shop.isVerified && (
                       <SecurityRounded
@@ -335,17 +336,17 @@ const ProductDetailPage: React.FC = () => {
 
         {/* Product Description */}
         <Box sx={{ py: 2 }}>
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ mb: 2 }}>
             Descripción
           </Typography>
-          <Typography variant="body2" sx={{ lineHeight: 1.6, mb: 2 }}>
+          <Typography variant="body2" sx={{ mb: 2 }}>
             {product.description}
           </Typography>
 
           {/* Specifications */}
           {product.specifications && (
             <Box>
-              <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 500 }}>
+              <Typography variant="subtitle1" sx={{ mb: 1 }}>
                 Especificaciones
               </Typography>
               <List dense>
@@ -375,7 +376,7 @@ const ProductDetailPage: React.FC = () => {
         {/* Reviews */}
         {reviews.length > 0 && (
           <Box sx={{ py: 2 }}>
-            <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>
               Reseñas ({reviews.length})
             </Typography>
             {reviews.slice(0, 3).map((review) => (
@@ -398,7 +399,7 @@ const ProductDetailPage: React.FC = () => {
         {/* Recommended Products */}
         {recommendedProducts.length > 0 && (
           <Box sx={{ py: 2 }}>
-            <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>
               Más como esto
             </Typography>
             <Grid container spacing={2}>

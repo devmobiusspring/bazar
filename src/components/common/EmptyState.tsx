@@ -34,7 +34,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
         </Box>
       )}
       
-      <Typography variant="h6" sx={{ mb: 1, fontWeight: 500 }}>
+      <Typography variant="h6" sx={{ mb: 1 }}>
         {title}
       </Typography>
       

@@ -79,7 +79,7 @@ const ShopsPage: React.FC = () => {
       <Container maxWidth="lg" sx={{ py: 2 }}>
         {/* Categories Filter */}
         <Box sx={{ mb: 3 }}>
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ mb: 2 }}>
             Categorías
           </Typography>
           <Box
@@ -107,7 +107,7 @@ const ShopsPage: React.FC = () => {
 
         {/* Shops Grid */}
         <Box>
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ mb: 2 }}>
             {selectedCategory ? 'Tiendas filtradas' : 'Tiendas populares'}
           </Typography>
           
@@ -137,7 +137,6 @@ const ShopsPage: React.FC = () => {
                         <Typography
                           variant="subtitle1"
                           sx={{
-                            fontWeight: 600,
                             display: 'flex',
                             alignItems: 'center',
                             gap: 0.5,

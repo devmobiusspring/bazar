@@ -186,7 +186,7 @@ const CartPage: React.FC = () => {
 
                     <Typography
                       variant="h6"
-                      sx={{ fontWeight: 'bold', color: 'primary.main', mb: 1 }}
+                      sx={{ color: 'primary.main', mb: 1 }}
                     >
                       Q{item.product.price.toLocaleString()}
                     </Typography>
@@ -242,7 +242,7 @@ const CartPage: React.FC = () => {
         {/* Order Summary */}
         <Card>
           <CardContent>
-            <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>
               Resumen del pedido
             </Typography>
 
@@ -263,10 +263,10 @@ const CartPage: React.FC = () => {
             <Divider sx={{ my: 2 }} />
 
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+              <Typography variant="h6">
                 Total
               </Typography>
-              <Typography variant="h6" sx={{ fontWeight: 600, color: 'primary.main' }}>
+              <Typography variant="h6" sx={{ color: 'primary.main' }}>
                 Q{totals.total.toLocaleString()}
               </Typography>
             </Box>

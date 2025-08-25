@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { FavoriteRounded, FavoriteBorderRounded } from '@mui/icons-material';
 import { Product } from '../../types';
+import { alpha } from '@mui/material/styles';
 
 interface ProductListItemProps {
   product: Product;
@@ -79,7 +80,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({
               position: 'absolute',
               top: 4,
               right: 4,
-              backgroundColor: 'rgba(255, 255, 255, 0.9)',
+              backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.9),
               p: 0.5,
             }}
             size="small"
@@ -98,7 +99,6 @@ const ProductListItem: React.FC<ProductListItemProps> = ({
         <Typography
           variant="subtitle2"
           sx={{
-            fontWeight: 500,
             mb: 0.5,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
@@ -127,7 +127,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({
           <Typography
             variant="h6"
             component="span"
-            sx={{ fontWeight: 'bold', color: 'primary.main' }}
+            sx={{ color: 'primary.main' }}
           >
             Q{product.price.toLocaleString()}
           </Typography>

@@ -20,17 +20,21 @@ import { styled } from '@mui/material/styles';
 
 ## Typography Rules
 - **NEVER use HTML text elements**: `<h1>`, `<h2>`, `<h3>`, `<h4>`, `<h5>`, `<h6>`, `<p>`, `<span>`, `<div>` with text content
-- **ALWAYS use Typography component** for all text content:
+- **ALWAYS use Typography component** for all text content
+- **NEVER override Typography styles**: Do not override font-size, font-family, font-weight, line-height, or other typography properties
+- **Use theme typography variants**: Always rely on predefined theme variants instead of custom typography styles
   ```typescript
   // ❌ NEVER do this
   <h1>Page Title</h1>
   <p>Some paragraph text</p>
   <span>Label text</span>
+  <Typography sx={{ fontSize: '24px', fontWeight: 'bold' }}>Custom styled text</Typography>
   
   // ✅ ALWAYS do this
   <Typography variant="h1">Page Title</Typography>
   <Typography variant="body1">Some paragraph text</Typography>
   <Typography variant="caption">Label text</Typography>
+  <Typography variant="h4">Use appropriate variant instead of custom styles</Typography>
   ```
 
 ## Component Usage Rules
@@ -116,6 +120,7 @@ import { styled } from '@mui/material/styles';
 - ❌ Using other UI frameworks (Bootstrap, Tailwind, Ant Design, etc.)
 - ❌ Using plain HTML elements for UI (`<button>`, `<input>`, `<div>` for layout)
 - ❌ Using regular text elements (`<p>`, `<h1>`, `<span>`, etc.)
+- ❌ Overriding Typography component styles (fontSize, fontFamily, fontWeight, lineHeight, etc.)
 - ❌ Inline styles instead of `sx` prop or theme integration
 - ❌ Custom CSS classes that override Material-UI styles
 

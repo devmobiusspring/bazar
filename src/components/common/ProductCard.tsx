@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { FavoriteRounded, FavoriteBorderRounded } from '@mui/icons-material';
 import { Product } from '../../types';
+import { alpha } from '@mui/material/styles';
 
 interface ProductCardProps {
   product: Product;
@@ -73,9 +74,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
               position: 'absolute',
               top: 8,
               right: 8,
-              backgroundColor: 'rgba(255, 255, 255, 0.9)',
+              backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.9),
               '&:hover': {
-                backgroundColor: 'rgba(255, 255, 255, 1)',
+                backgroundColor: 'background.paper',
               },
             }}
             size="small"
@@ -124,14 +125,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
           variant={compact ? 'body2' : 'subtitle2'}
           component="h3"
           sx={{
-            fontWeight: 500,
             mb: 0.5,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
-            lineHeight: 1.2,
           }}
         >
           {product.name}
@@ -151,7 +150,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <Typography
             variant={compact ? 'body2' : 'h6'}
             component="span"
-            sx={{ fontWeight: 'bold', color: 'primary.main' }}
+            sx={{ color: 'primary.main' }}
           >
             Q{product.price.toLocaleString()}
           </Typography>

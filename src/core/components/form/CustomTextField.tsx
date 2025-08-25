@@ -50,7 +50,7 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
       helperText: helperText,
       FormHelperTextProps:
         removeErrorColor && formik.errors[name]
-          ? { style: { color: "red" } }
+          ? { sx: { color: 'error.main' } }
           : {},
     };
   };

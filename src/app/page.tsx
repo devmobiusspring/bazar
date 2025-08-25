@@ -140,13 +140,13 @@ export default function HomePage() {
               onClick={() => handleCategoryClick('gifts')}
               size="small"
               sx={{
-                backgroundColor: 'rgba(46,47,52,0.08)',
-                color: '#2e2f34',
+                backgroundColor: 'action.selected',
+                color: 'text.primary',
                 fontSize: '12px',
                 lineHeight: '16px',
                 letterSpacing: '0.1px',
                 '&:hover': {
-                  backgroundColor: 'rgba(46,47,52,0.12)',
+                  backgroundColor: 'action.focus',
                 },
               }}
             />
@@ -156,13 +156,13 @@ export default function HomePage() {
               onClick={() => handleCategoryClick('electronics')}
               size="small"
               sx={{
-                backgroundColor: 'rgba(46,47,52,0.08)',
-                color: '#2e2f34',
+                backgroundColor: 'action.selected',
+                color: 'text.primary',
                 fontSize: '12px',
                 lineHeight: '16px',
                 letterSpacing: '0.1px',
                 '&:hover': {
-                  backgroundColor: 'rgba(46,47,52,0.12)',
+                  backgroundColor: 'action.focus',
                 },
               }}
             />
@@ -172,13 +172,13 @@ export default function HomePage() {
               onClick={() => handleCategoryClick('home')}
               size="small"
               sx={{
-                backgroundColor: 'rgba(46,47,52,0.08)',
-                color: '#2e2f34',
+                backgroundColor: 'action.selected',
+                color: 'text.primary',
                 fontSize: '12px',
                 lineHeight: '16px',
                 letterSpacing: '0.1px',
                 '&:hover': {
-                  backgroundColor: 'rgba(46,47,52,0.12)',
+                  backgroundColor: 'action.focus',
                 },
               }}
             />
@@ -188,13 +188,13 @@ export default function HomePage() {
               onClick={() => handleCategoryClick('toys')}
               size="small"
               sx={{
-                backgroundColor: 'rgba(46,47,52,0.08)',
-                color: '#2e2f34',
+                backgroundColor: 'action.selected',
+                color: 'text.primary',
                 fontSize: '12px',
                 lineHeight: '16px',
                 letterSpacing: '0.1px',
                 '&:hover': {
-                  backgroundColor: 'rgba(46,47,52,0.12)',
+                  backgroundColor: 'action.focus',
                 },
               }}
             />
@@ -213,10 +213,7 @@ export default function HomePage() {
               <Typography 
                 variant="h5" 
                 sx={{ 
-                  fontWeight: 700,
-                  fontSize: '20px',
-                  lineHeight: '26px',
-                  color: '#2e2f34',
+                  color: 'text.primary',
                 }}
               >
                 Visto recientemente
@@ -225,9 +222,7 @@ export default function HomePage() {
                 variant="body2"
                 onClick={() => handleViewAll('recent')}
                 sx={{
-                  fontSize: '14px',
-                  lineHeight: '20px',
-                  color: '#2e2f34',
+                  color: 'text.primary',
                   textDecoration: 'underline',
                   cursor: 'pointer',
                   '&:hover': {
@@ -273,10 +268,7 @@ export default function HomePage() {
             <Typography 
               variant="h5" 
               sx={{ 
-                fontWeight: 700,
-                fontSize: '20px',
-                lineHeight: '26px',
-                color: '#2e2f34',
+                color: 'text.primary',
               }}
             >
               Para tí
@@ -285,9 +277,7 @@ export default function HomePage() {
               variant="body2"
               onClick={() => handleViewAll('recommended')}
               sx={{
-                fontSize: '14px',
-                lineHeight: '20px',
-                color: '#2e2f34',
+                color: 'text.primary',
                 textDecoration: 'underline',
                 cursor: 'pointer',
                 '&:hover': {
@@ -327,10 +317,7 @@ export default function HomePage() {
             variant="h5" 
             sx={{ 
               mb: 4,
-              fontWeight: 700,
-              fontSize: '20px',
-              lineHeight: '26px',
-              color: '#2e2f34',
+              color: 'text.primary',
             }}
           >
             Explora

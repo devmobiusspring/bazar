@@ -51,7 +51,7 @@ const SellPage: React.FC = () => {
       <Container maxWidth="lg" sx={{ py: 4 }}>
         {/* Hero Section */}
         <Box sx={{ textAlign: 'center', mb: 6 }}>
-          <Typography variant="h4" sx={{ fontWeight: 600, mb: 2 }}>
+          <Typography variant="h4" sx={{ mb: 2 }}>
             Comienza a vender en Bazar Digital
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ mb: 4, maxWidth: 600, mx: 'auto' }}>
@@ -83,7 +83,7 @@ const SellPage: React.FC = () => {
                   >
                     {React.cloneElement(feature.icon, { fontSize: 'large' })}
                   </Box>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                  <Typography variant="h6" sx={{ mb: 1 }}>
                     {feature.title}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
@@ -96,13 +96,13 @@ const SellPage: React.FC = () => {
         </Grid>
 
         {/* Benefits Section */}
-        <Card sx={{ p: 4, backgroundColor: 'primary.main', color: 'white' }}>
-          <Typography variant="h5" sx={{ fontWeight: 600, mb: 3, textAlign: 'center' }}>
+        <Card sx={{ p: 4, backgroundColor: 'primary.main', color: 'primary.contrastText' }}>
+          <Typography variant="h5" sx={{ mb: 3, textAlign: 'center' }}>
             ¿Por qué vender con nosotros?
           </Typography>
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+              <Typography variant="h6" sx={{ mb: 1 }}>
                 Sin comisiones iniciales
               </Typography>
               <Typography variant="body2" sx={{ opacity: 0.9 }}>
@@ -110,7 +110,7 @@ const SellPage: React.FC = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+              <Typography variant="h6" sx={{ mb: 1 }}>
                 Pagos seguros
               </Typography>
               <Typography variant="body2" sx={{ opacity: 0.9 }}>
@@ -118,7 +118,7 @@ const SellPage: React.FC = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+              <Typography variant="h6" sx={{ mb: 1 }}>
                 Soporte 24/7
               </Typography>
               <Typography variant="body2" sx={{ opacity: 0.9 }}>
@@ -130,7 +130,7 @@ const SellPage: React.FC = () => {
 
         {/* CTA Section */}
         <Box sx={{ textAlign: 'center', mt: 6 }}>
-          <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
+          <Typography variant="h5" sx={{ mb: 2 }}>
             ¿Listo para empezar?
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>

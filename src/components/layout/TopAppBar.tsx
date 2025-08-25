@@ -115,7 +115,7 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
         {/* Center Section */}
         <Box sx={{ flexGrow: 1 }}>
           {title ? (
-            <Typography variant="h6" component="h1" sx={{ fontWeight: 600 }}>
+            <Typography variant="h6" component="h1">
               {title}
             </Typography>
           ) : showSearch && !isSearchPage ? (
@@ -124,13 +124,13 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                backgroundColor: 'rgba(80,81,87,0.08)',
+                backgroundColor: 'action.selected',
                 borderRadius: '999px',
                 px: 3,
                 py: 2,
                 cursor: 'pointer',
                 '&:hover': {
-                  backgroundColor: 'rgba(80,81,87,0.12)',
+                  backgroundColor: 'action.focus',
                 },
               }}
             >
@@ -155,7 +155,7 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                backgroundColor: 'rgba(80,81,87,0.08)',
+                backgroundColor: 'action.selected',
                 borderRadius: '999px',
                 px: 3,
                 py: 2,
@@ -173,14 +173,14 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
                   letterSpacing: '0.1px',
                   '& input': {
                     padding: 0,
-                    '&::placeholder': {
-                      color: 'rgba(46,47,52,0.7)',
-                      opacity: 1,
-                    },
+                  '&::placeholder': {
+                    color: 'text.secondary',
+                    opacity: 1,
                   },
-                }}
-                autoFocus
-              />
+                },
+              }}
+              autoFocus
+            />
             </Box>
           ) : null}
         </Box>

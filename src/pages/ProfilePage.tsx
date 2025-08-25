@@ -144,7 +144,7 @@ const ProfilePage: React.FC = () => {
                 {user.name.charAt(0)}
               </Avatar>
               <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="h5" sx={{ fontWeight: 600, mb: 0.5 }}>
+                <Typography variant="h5" sx={{ mb: 0.5 }}>
                   {user.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
@@ -179,7 +179,6 @@ const ProfilePage: React.FC = () => {
                   <ListItemText
                     primary={item.title}
                     secondary={item.subtitle}
-                    primaryTypographyProps={{ fontWeight: 500 }}
                   />
                 </ListItem>
                 {index < menuItems.length - 1 && <Divider />}
@@ -199,7 +198,6 @@ const ProfilePage: React.FC = () => {
               </ListItemIcon>
               <ListItemText
                 primary="Cerrar sesión"
-                primaryTypographyProps={{ fontWeight: 500 }}
               />
             </ListItem>
           </List>

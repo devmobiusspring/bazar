@@ -29,16 +29,16 @@ const SnackBarComponent: React.FC<SnackBarComponentProps> = ({ title }) => {
       width: "100%",
       ...(severity === "success" && {
         backgroundColor: theme.palette.success.main,
-        color: "white",
+        color: theme.palette.success.contrastText,
         "& .MuiAlert-icon": {
-          color: "white",
+          color: theme.palette.success.contrastText,
         },
       }),
       ...(severity === "error" && {
         backgroundColor: theme.palette.error.main,
-        color: "white",
+        color: theme.palette.error.contrastText,
         "& .MuiAlert-icon": {
-          color: "white",
+          color: theme.palette.error.contrastText,
         },
       }),
     }),

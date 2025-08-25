@@ -103,7 +103,7 @@ const HomePage: React.FC = () => {
       <Container maxWidth="lg" sx={{ py: 2 }}>
         {/* Categories */}
         <Box sx={{ mb: 3 }}>
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ mb: 2 }}>
             Categorías
           </Typography>
           <Box
@@ -126,7 +126,7 @@ const HomePage: React.FC = () => {
                   whiteSpace: 'nowrap',
                   '&:hover': {
                     backgroundColor: 'primary.light',
-                    color: 'white',
+                    color: 'primary.contrastText',
                   },
                 }}
               />
@@ -137,7 +137,7 @@ const HomePage: React.FC = () => {
         {/* Recently Viewed */}
         {recentlyViewed.length > 0 && (
           <Box sx={{ mb: 4 }}>
-            <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>
               Recientemente vistos
             </Typography>
             <Box
@@ -166,7 +166,7 @@ const HomePage: React.FC = () => {
 
         {/* Recommended Products */}
         <Box sx={{ mb: 4 }}>
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ mb: 2 }}>
             Para ti
           </Typography>
           <Box
@@ -194,7 +194,7 @@ const HomePage: React.FC = () => {
 
         {/* Explore Products Grid */}
         <Box>
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ mb: 2 }}>
             Explorar
           </Typography>
           <Grid container spacing={2}>
