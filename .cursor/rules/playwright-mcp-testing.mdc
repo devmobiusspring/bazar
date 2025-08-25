@@ -1,0 +1,96 @@
+---
+description: Guidelines for using Playwright MCP server for responsive testing
+---
+
+# Playwright MCP Testing Rules
+
+## Required Screen Width Testing
+When using the Playwright MCP server to test UI components or pages, **ALWAYS** test across these three screen widths to ensure responsive design compatibility:
+
+1. **Mobile**: 393px width (iPhone 14 Pro size)
+2. **Tablet**: 768px width (iPad portrait)  
+3. **Desktop**: 1512px width (large desktop)
+
+## Testing Workflow
+Follow this sequence when testing with Playwright MCP:
+
+### 1. Navigate to Page
+```javascript
+// Navigate to the target page first
+await mcp_playwright_browser_navigate({ url: "your-url-here" })
+```
+
+### 2. Test Each Screen Width
+For each of the required widths, perform this sequence:
+
+```javascript
+// Resize browser to target width
+await mcp_playwright_browser_resize({ width: 393, height: 852 })  // Mobile
+await mcp_playwright_browser_resize({ width: 768, height: 1024 }) // Tablet  
+await mcp_playwright_browser_resize({ width: 1512, height: 982 }) // Desktop
+
+// Take screenshot for visual verification (always save in .playwright-mcp folder)
+await mcp_playwright_browser_take_screenshot({ 
+  filename: ".playwright-mcp/test-mobile-393px.png",
+  fullPage: true 
+})
+
+// Capture accessibility snapshot for interaction testing
+await mcp_playwright_browser_snapshot()
+```
+
+### 3. Recommended Heights
+Use these heights with the corresponding widths:
+- **393px width**: 852px height (mobile viewport)
+- **768px width**: 1024px height (tablet viewport)
+- **1512px width**: 982px height (desktop viewport)
+
+## Testing Checklist
+For each screen width, verify:
+- [ ] Navigation elements are properly positioned and accessible
+- [ ] Content is readable and properly formatted
+- [ ] Interactive elements (buttons, forms) are appropriately sized
+- [ ] No horizontal scrolling occurs unexpectedly
+- [ ] Images and media scale appropriately
+- [ ] Typography remains legible across all sizes
+
+## Material-UI Responsive Considerations
+Since this project uses Material-UI, pay special attention to:
+- Grid breakpoints behavior (xs, sm, md, lg, xl)
+- AppBar responsive behavior
+- Drawer/navigation responsive patterns
+- Typography scaling across viewports
+- Button and form element sizing
+
+## Example Complete Test Sequence
+```javascript
+// 1. Navigate to page
+await mcp_playwright_browser_navigate({ url: "http://localhost:3000" })
+
+// 2. Test Mobile (393px)
+await mcp_playwright_browser_resize({ width: 393, height: 852 })
+await mcp_playwright_browser_take_screenshot({ filename: ".playwright-mcp/mobile-393.png", fullPage: true })
+await mcp_playwright_browser_snapshot()
+
+// 3. Test Tablet (768px) 
+await mcp_playwright_browser_resize({ width: 768, height: 1024 })
+await mcp_playwright_browser_take_screenshot({ filename: ".playwright-mcp/tablet-768.png", fullPage: true })
+await mcp_playwright_browser_snapshot()
+
+// 4. Test Desktop (1512px)
+await mcp_playwright_browser_resize({ width: 1512, height: 982 })
+await mcp_playwright_browser_take_screenshot({ filename: ".playwright-mcp/desktop-1512.png", fullPage: true })
+await mcp_playwright_browser_snapshot()
+```
+
+## Screenshot Storage Requirements
+- **ALWAYS save screenshots in the `.playwright-mcp/` folder** - this folder is gitignored
+- Use descriptive filenames that include screen width (e.g., `mobile-393.png`, `tablet-768.png`, `desktop-1512.png`)
+- The `.playwright-mcp/` folder is automatically created by Playwright MCP and should not be committed to git
+
+## Critical Requirements
+- **NEVER skip any of the three screen widths** - all are mandatory for complete testing
+- **ALWAYS take both screenshots and snapshots** for comprehensive documentation
+- **ALWAYS save screenshots in `.playwright-mcp/` folder** - never save to root or other directories
+- **Test interactive elements** at each screen size to ensure usability
+- **Document any responsive issues** found during testing across different viewports
