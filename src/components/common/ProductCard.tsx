@@ -1,61 +1,46 @@
 import React from 'react';
 import {
   Card,
+  CardActionArea,
   CardMedia,
   CardContent,
   Typography,
   Box,
-  IconButton,
-  Chip,
 } from '@mui/material';
-import { FavoriteRounded, FavoriteBorderRounded } from '@mui/icons-material';
 import { Product } from '../../types';
-import { alpha } from '@mui/material/styles';
 
 interface ProductCardProps {
   product: Product;
   onProductClick: (productId: string) => void;
-  onFavoriteClick?: (productId: string) => void;
-  isFavorite?: boolean;
-  compact?: boolean;
+  discountedPrice?: number;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onProductClick,
-  onFavoriteClick,
-  isFavorite = false,
-  compact = false,
+  discountedPrice,
 }) => {
   const handleCardClick = () => {
     onProductClick(product.id);
   };
 
-  const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onFavoriteClick?.(product.id);
-  };
-
-  const discountPercentage = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : 0;
-
   return (
     <Card
-      onClick={handleCardClick}
       sx={{
-        cursor: 'pointer',
-        position: 'relative',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        '&:hover': {
-          transform: 'translateY(-2px)',
-          transition: 'transform 0.2s ease-in-out',
-        },
       }}
     >
-      <Box sx={{ position: 'relative' }}>
+      <CardActionArea
+        onClick={handleCardClick}
+        sx={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'stretch',
+        }}
+      >
         <CardMedia
           component="img"
           sx={{
@@ -65,120 +50,44 @@ const ProductCard: React.FC<ProductCardProps> = ({
           image={product.images[0]}
           alt={product.name}
         />
-        
-        {/* Favorite Button */}
-        {onFavoriteClick && (
-          <IconButton
-            onClick={handleFavoriteClick}
-            sx={{
-              position: 'absolute',
-              top: 8,
-              right: 8,
-              backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.9),
-              '&:hover': {
-                backgroundColor: 'background.paper',
-              },
-            }}
-            size="small"
-          >
-            {isFavorite ? (
-              <FavoriteRounded color="error" fontSize="small" />
-            ) : (
-              <FavoriteBorderRounded fontSize="small" />
-            )}
-          </IconButton>
-        )}
 
-        {/* Discount Badge */}
-        {discountPercentage > 0 && (
-          <Chip
-            label={`-${discountPercentage}%`}
-            color="error"
-            size="small"
-            sx={{
-              position: 'absolute',
-              top: 8,
-              left: 8,
-              fontWeight: 'bold',
-            }}
-          />
-        )}
-
-        {/* Free Shipping Badge */}
-        {product.shipping.free && (
-          <Chip
-            label="Envío gratis"
-            color="success"
-            size="small"
-            sx={{
-              position: 'absolute',
-              bottom: 8,
-              left: 8,
-              fontSize: '0.7rem',
-            }}
-          />
-        )}
-      </Box>
-
-      <CardContent sx={{ flexGrow: 1, p: compact ? 1 : 2 }}>
-        <Typography
-          variant={compact ? 'body2' : 'subtitle2'}
-          component="h3"
-          sx={{
-            mb: 0.5,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-          }}
-        >
-          {product.name}
-        </Typography>
-
-        {product.brand && (
+        <CardContent sx={{ p: 1 }}>
           <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ display: 'block', mb: 0.5 }}
+            variant="body1"
+            component="h3"
+            sx={{
+              mb: 0.5,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
           >
-            {product.brand}
+            {product.name}
           </Typography>
-        )}
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
-          <Typography
-            variant={compact ? 'body2' : 'h6'}
-            component="span"
-            sx={{ color: 'primary.main' }}
-          >
-            Q{product.price.toLocaleString()}
-          </Typography>
-          {product.originalPrice && (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Typography
-              variant="caption"
+              variant="subtitle2"
               component="span"
-              sx={{
-                textDecoration: 'line-through',
-                color: 'text.secondary',
-              }}
+              sx={{ color: 'primary.main', fontWeight: 600 }}
             >
-              Q{product.originalPrice.toLocaleString()}
+              Q{(discountedPrice || product.price).toLocaleString()}
             </Typography>
-          )}
-        </Box>
-
-        {!compact && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <Typography variant="caption" color="text.secondary">
-              ⭐ {product.rating}
-            </Typography>
-            <Typography variant="caption" color="text.secondary">
-              ({product.reviewCount})
-            </Typography>
+            {discountedPrice && (
+              <Typography
+                variant="body2"
+                component="span"
+                sx={{
+                  textDecoration: 'line-through',
+                  color: 'text.secondary',
+                }}
+              >
+                Q{product.price.toLocaleString()}
+              </Typography>
+            )}
           </Box>
-        )}
-      </CardContent>
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 };

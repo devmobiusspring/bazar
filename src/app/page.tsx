@@ -18,6 +18,7 @@ import {
 import TopAppBar from '../components/layout/TopAppBar';
 import ProductCard from '../components/common/ProductCard';
 import LoadingSkeleton from '../components/common/LoadingSkeleton';
+import SectionHeader from '../components/common/SectionHeader';
 import { Product, Category } from '../types';
 import { getProducts, getRecentlyViewed, getRecommendedProducts } from '../services/productService';
 import { getCategories } from '../services/categoryService';
@@ -105,7 +106,7 @@ export default function HomePage() {
     return (
       <Box>
         <TopAppBar />
-        <Container maxWidth="lg" sx={{ py: 2 }}>
+        <Container maxWidth="lg" sx={{ p: 2 }}>
           <LoadingSkeleton variant="text" height={32} width="60%" />
           <Box sx={{ display: 'flex', gap: 1, my: 2, overflowX: 'auto' }}>
             {Array.from({ length: 6 }).map((_, index) => (
@@ -123,8 +124,8 @@ export default function HomePage() {
       <TopAppBar />
       
       <Container maxWidth="lg" sx={{ py: 2 }}>
-        {/* Categories */}
-        <Box sx={{ mb: 3 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {/* Categories */}
           <Box
             sx={{
               display: 'flex',
@@ -199,41 +200,15 @@ export default function HomePage() {
               }}
             />
           </Box>
-        </Box>
 
-        {/* Recently Viewed */}
-        {recentlyViewed.length > 0 && (
-          <Box sx={{ mb: 6 }}>
-            <Box sx={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center', 
-              mb: 4 
-            }}>
-              <Typography 
-                variant="h5" 
-                sx={{ 
-                  color: 'text.primary',
-                }}
-              >
-                Visto recientemente
-              </Typography>
-              <Typography
-                variant="body2"
-                onClick={() => handleViewAll('recent')}
-                sx={{
-                  color: 'text.primary',
-                  textDecoration: 'underline',
-                  cursor: 'pointer',
-                  '&:hover': {
-                    color: 'primary.main',
-                  },
-                }}
-              >
-                Ver todos
-              </Typography>
-            </Box>
-            <Box
+          {/* Recently Viewed */}
+          {recentlyViewed.length > 0 && (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <SectionHeader 
+                title="Visto recientemente" 
+                onViewAll={() => handleViewAll('recent')} 
+              />
+              <Box
               sx={{
                 display: 'flex',
                 gap: 2,
@@ -253,42 +228,17 @@ export default function HomePage() {
                   />
                 </Box>
               ))}
+              </Box>
             </Box>
-          </Box>
-        )}
+          )}
 
-        {/* Recommended Products */}
-        <Box sx={{ mb: 6 }}>
-          <Box sx={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            alignItems: 'center', 
-            mb: 4 
-          }}>
-            <Typography 
-              variant="h5" 
-              sx={{ 
-                color: 'text.primary',
-              }}
-            >
-              Para tí
-            </Typography>
-            <Typography
-              variant="body2"
-              onClick={() => handleViewAll('recommended')}
-              sx={{
-                color: 'text.primary',
-                textDecoration: 'underline',
-                cursor: 'pointer',
-                '&:hover': {
-                  color: 'primary.main',
-                },
-              }}
-            >
-              Ver todos
-            </Typography>
-          </Box>
-          <Box
+          {/* Recommended Products */}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <SectionHeader 
+              title="Para tí" 
+              onViewAll={() => handleViewAll('recommended')} 
+            />
+            <Box
             sx={{
               display: 'flex',
               gap: 2,
@@ -308,21 +258,16 @@ export default function HomePage() {
                 />
               </Box>
             ))}
+            </Box>
           </Box>
-        </Box>
 
-        {/* Explore Products Grid */}
-        <Box>
-          <Typography 
-            variant="h5" 
-            sx={{ 
-              mb: 4,
-              color: 'text.primary',
-            }}
-          >
-            Explora
-          </Typography>
-          <Grid container spacing={2}>
+          {/* Explore Products Grid */}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <SectionHeader 
+              title="Explora" 
+              showViewAll={false} 
+            />
+            <Grid container spacing={2}>
             {exploreProducts.map((product) => (
               <Grid item xs={6} sm={4} md={3} key={product.id}>
                 <ProductCard
@@ -333,7 +278,8 @@ export default function HomePage() {
                 />
               </Grid>
             ))}
-          </Grid>
+            </Grid>
+          </Box>
         </Box>
       </Container>
     </Box>

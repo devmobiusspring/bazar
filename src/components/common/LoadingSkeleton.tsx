@@ -18,7 +18,7 @@ const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({
     switch (variant) {
       case 'product-card':
         return (
-          <Card>
+          <Card variant='outlined'>
             <Skeleton variant="rectangular" height={200} />
             <CardContent>
               <Skeleton variant="text" height={24} />
@@ -43,7 +43,7 @@ const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({
 
       case 'shop-card':
         return (
-          <Card>
+          <Card variant='outlined'>
             <Box sx={{ display: 'flex', p: 2, gap: 2 }}>
               <Skeleton variant="circular" width={60} height={60} />
               <Box sx={{ flexGrow: 1 }}>

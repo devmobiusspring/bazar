@@ -4,9 +4,12 @@ import { Theme } from "@mui/material/styles";
 const Card = (theme: Theme) => {
   return {
     MuiCard: {
+      defaultProps: {
+        variant: 'outlined',
+      },
       styleOverrides: {
         root: {
-          boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
+          boxShadow: 'none',
           borderRadius: 12,
         },
       },
