@@ -2,6 +2,7 @@ import ThemeComponent from "@/theme";
 import { StoreProvider } from "@/store/StoreProvider";
 import SnackBarComponent from "@/core/components/SnackBar";
 import AppLayout from "@/components/layout/AppLayout";
+import { ThemeModeProvider } from "@/context/ThemeContext";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -17,14 +18,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <StoreProvider>
-        <ThemeComponent>
-          <body>
-            <AppLayout>
-              {children}
-            </AppLayout>
-            <SnackBarComponent />
-          </body>
-        </ThemeComponent>
+        <ThemeModeProvider>
+          <ThemeComponent>
+            <body>
+              <AppLayout>
+                {children}
+              </AppLayout>
+              <SnackBarComponent />
+            </body>
+          </ThemeComponent>
+        </ThemeModeProvider>
       </StoreProvider>
     </html>
   );

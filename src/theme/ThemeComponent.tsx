@@ -14,6 +14,9 @@ import typography from "./typography";
 import themeOptions from "./ThemeOptions";
 import { NextAppDirEmotionCacheProvider } from "./EmotionCache";
 
+// ** Context Imports
+import { useThemeMode } from "@/context/ThemeContext";
+
 // ** Custom Theme Types
 declare module '@mui/material/styles' {
   interface Theme {
@@ -41,7 +44,8 @@ interface Props {
 
 const ThemeComponent = (props: Props) => {
   const { children } = props;
-  const coreThemeConfig = themeOptions();
+  const { mode } = useThemeMode();
+  const coreThemeConfig = themeOptions(mode);
 
   // ** Pass ThemeOptions to CreateTheme Function to create partial theme without component overrides
   let theme = createTheme({

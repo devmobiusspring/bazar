@@ -5,25 +5,20 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  InputBase,
-  Box,
-  Badge,
   TextField,
+  InputAdornment,
+  Box,
 } from '@mui/material';
 import {
   ArrowBack,
   SearchRounded,
-  ShoppingCartRounded,
-  MenuRounded,
 } from '@mui/icons-material';
 import { useRouter, usePathname } from 'next/navigation';
-import { getCartItemCount } from '../../services/cartService';
 
 interface TopAppBarProps {
   title?: string;
   showSearch?: boolean;
   showBack?: boolean;
-  showCart?: boolean;
   onSearchClick?: () => void;
   searchValue?: string;
   onSearchChange?: (value: string) => void;
@@ -34,7 +29,6 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
   title,
   showSearch = true,
   showBack = false,
-  showCart = true,
   onSearchClick,
   searchValue = '',
   onSearchChange,
@@ -42,20 +36,8 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const [cartItemCount, setCartItemCount] = useState(0);
   const [scrolled, setScrolled] = useState(false);
 
-  useEffect(() => {
-    setCartItemCount(getCartItemCount());
-    
-    // Listen for cart changes
-    const handleStorageChange = () => {
-      setCartItemCount(getCartItemCount());
-    };
-    
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,10 +52,6 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
     router.back();
   };
 
-  const handleCartClick = () => {
-    router.push('/cart');
-  };
-
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchValue.trim() && onSearchSubmit) {
@@ -81,119 +59,103 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
     }
   };
 
+
+
   const isSearchPage = pathname === '/search';
+  const isSubPage = pathname !== '/' && pathname !== '/search';
+  const hasBackButton = showBack || isSubPage;
 
   return (
     <AppBar
       position="sticky"
-      variant="dense"
       sx={{
-        backgroundColor: 'background.paper',
+        backgroundColor: 'background.default',
+        backgroundImage: 'none',
         color: 'text.primary',
-        boxShadow: scrolled ? 1 : 0,
-        transition: 'box-shadow 0.2s ease-in-out',
+        borderBottom: 'none',
+        boxShadow: 'none',
       }}
     >
-      <Toolbar sx={{ minHeight: 56 }}>
-        {/* Left Section */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
-          {showBack ? (
+      <Box sx={{ 
+        px: hasBackButton ? 1 : 2, 
+        py: { xs: 1, md: 2 }
+      }}>
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          {/* Optional Back Button for Sub Pages */}
+          {hasBackButton ? (
             <IconButton
-              edge="start"
               onClick={handleBack}
-              sx={{ mr: 1 }}
+              sx={{ p: 1 }}
             >
               <ArrowBack />
             </IconButton>
-          ) : (
-            <IconButton edge="start" sx={{ mr: 1 }}>
-              <MenuRounded />
-            </IconButton>
-          )}
-        </Box>
-
-        {/* Center Section */}
-        <Box sx={{ flexGrow: 1 }}>
-          {title ? (
-            <Typography variant="h6" component="h1">
-              {title}
-            </Typography>
-          ) : showSearch && !isSearchPage ? (
-            <Box
-              onClick={onSearchClick || (() => router.push('/search'))}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                backgroundColor: 'action.selected',
-                borderRadius: '999px',
-                px: 3,
-                py: 2,
-                cursor: 'pointer',
-                '&:hover': {
-                  backgroundColor: 'action.focus',
-                },
-              }}
-            >
-              <SearchRounded sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} />
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ 
-                  flexGrow: 1,
-                  fontSize: '14px',
-                  lineHeight: '20px',
-                  letterSpacing: '0.1px',
-                }}
-              >
-                Buscar en Bazar
-              </Typography>
-            </Box>
-          ) : isSearchPage ? (
-            <Box
-              component="form"
-              onSubmit={handleSearchSubmit}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                backgroundColor: 'action.selected',
-                borderRadius: '999px',
-                px: 3,
-                py: 2,
-              }}
-            >
-              <SearchRounded sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} />
-              <InputBase
-                placeholder="Buscar en Bazar"
-                value={searchValue}
-                onChange={(e) => onSearchChange?.(e.target.value)}
-                sx={{
-                  flexGrow: 1,
-                  fontSize: '14px',
-                  lineHeight: '20px',
-                  letterSpacing: '0.1px',
-                  '& input': {
-                    padding: 0,
-                  '&::placeholder': {
-                    color: 'text.secondary',
-                    opacity: 1,
-                  },
-                },
-              }}
-              autoFocus
-            />
-            </Box>
           ) : null}
-        </Box>
 
-        {/* Right Section */}
-        {showCart && (
-          <IconButton onClick={handleCartClick} sx={{ ml: 1 }}>
-            <Badge badgeContent={cartItemCount} color="error">
-              <ShoppingCartRounded />
-            </Badge>
-          </IconButton>
-        )}
-      </Toolbar>
+          {/* Search Bar */}
+          <Box sx={{ flexGrow: 1 }}>
+            {title ? (
+              <Typography variant="h6" component="h1">
+                {title}
+              </Typography>
+            ) : showSearch && !isSearchPage ? (
+              // Default State - TextField with search appearance
+              <TextField
+                placeholder="Search"
+                variant="filled"
+                size="small"
+                onClick={onSearchClick || (() => router.push('/search'))}
+                InputProps={{
+                  readOnly: true,
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchRounded sx={{ color: 'text.secondary' }} />
+                    </InputAdornment>
+                  ),
+                  disableUnderline: true,
+                }}
+                sx={{
+                  width: '100%',
+                  '& .MuiFilledInput-root': {
+                    borderRadius: '999px !important',
+                  },
+                }}
+              />
+            ) : isSearchPage ? (
+              // Search State - Active search
+              <Box
+                component="form"
+                onSubmit={handleSearchSubmit}
+                sx={{ width: '100%' }}
+              >
+                <TextField
+                  placeholder="Search"
+                  variant="filled"
+                  size="small"
+                  value={searchValue}
+                  onChange={(e) => {
+                    onSearchChange?.(e.target.value);
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchRounded sx={{ color: 'text.secondary' }} />
+                      </InputAdornment>
+                    ),
+                    disableUnderline: true,
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& .MuiFilledInput-root': {
+                      borderRadius: '999px !important',
+                    },
+                  }}
+                  autoFocus
+                />
+              </Box>
+            ) : null}
+          </Box>
+        </Box>
+      </Box>
     </AppBar>
   );
 };

@@ -7,7 +7,7 @@ const Misc = (theme: Theme) => {
       styleOverrides: {
         root: {
           paddingBottom: 'env(safe-area-inset-bottom)',
-          borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+          borderTop: `1px solid ${theme.palette.divider}`,
         },
       },
     },

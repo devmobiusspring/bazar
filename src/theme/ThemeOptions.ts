@@ -1,5 +1,5 @@
 // ** MUI Theme Provider
-import { ThemeOptions } from "@mui/material";
+import { ThemeOptions, PaletteMode } from "@mui/material";
 
 // ** Theme Override Imports
 import palette from "./palette";
@@ -7,10 +7,10 @@ import spacing from "./spacing";
 import shadows from "./shadows";
 import breakpoints from "./breakpoints";
 
-const themeOptions = (): ThemeOptions => {
+const themeOptions = (mode: PaletteMode = "light"): ThemeOptions => {
   const options: ThemeOptions = {
-    palette: palette("light"),
-    shadows: shadows("light"),
+    palette: palette(mode),
+    shadows: shadows(mode),
     // ...spacing,
     shape: {
       borderRadius: 8,
