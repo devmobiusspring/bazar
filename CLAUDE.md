@@ -24,8 +24,7 @@ This is a Next.js 14 e-commerce using App Router with comprehensive TypeScript i
 ### Key Directory Structure
 
 **Core Application**
-- `src/app/` - Next.js App Router pages and API routes
-- `src/pages/` - Page components (HomePage, CartPage, ProductDetailPage, etc.)
+- `src/app/` - Next.js App Router pages and API routes (includes page components directly)
 - `src/components/` - Reusable UI components (common/, layout/)
 
 **Business Logic**
