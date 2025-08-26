@@ -7,7 +7,7 @@ const List = (theme: Theme) => {
       styleOverrides: {
         root: {
           minWidth: 0,
-          marginRight: theme.spacing(3),
+          marginRight: theme.spacing(1),
           color: theme.palette.text.secondary
         }
       }

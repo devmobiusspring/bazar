@@ -80,12 +80,12 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
         px: hasBackButton ? 1 : 2, 
         py: { xs: 1, md: 2 }
       }}>
-        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', gap: 0.25, alignItems: 'center' }}>
           {/* Optional Back Button for Sub Pages */}
           {hasBackButton ? (
             <IconButton
               onClick={handleBack}
-              sx={{ p: 1 }}
+              size='medium'
             >
               <ArrowBack />
             </IconButton>

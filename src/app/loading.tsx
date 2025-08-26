@@ -1,14 +1,11 @@
 "use client";
-import ImagesearchRollerTwoToneIcon from "@mui/icons-material/ImagesearchRollerTwoTone";
 import { Box } from "@mui/material";
+import LoadingSkeleton from "@/components/common/LoadingSkeleton";
 
 const Loading = () => {
   return (
-    <Box justifyContent={"center"} display={"flex"} width={"100%"}>
-      <ImagesearchRollerTwoToneIcon
-        fontSize="large"
-        sx={{ fontSize: "120px" }}
-      />
+    <Box sx={{ p: 2 }}>
+      <LoadingSkeleton variant="product-card" count={6} />
     </Box>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Link } from '@mui/material';
 
 interface SectionHeaderProps {
   title: string;
@@ -27,20 +27,13 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
         {title}
       </Typography>
       {showViewAll && (
-        <Typography
-          variant="body2"
+        <Link
+          variant="body1"
+          color="inherit"
           onClick={onViewAll}
-          sx={{
-            color: 'text.primary',
-            textDecoration: 'underline',
-            cursor: 'pointer',
-            '&:hover': {
-              color: 'primary.main',
-            },
-          }}
         >
           Ver todos
-        </Typography>
+        </Link>
       )}
     </Box>
   );

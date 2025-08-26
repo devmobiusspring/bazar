@@ -30,7 +30,7 @@ const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({
 
       case 'product-list':
         return (
-          <Box sx={{ display: 'flex', p: 2, gap: 2 }}>
+          <Box sx={{ display: 'flex', py: 1, gap: 2 }}>
             <Skeleton variant="rectangular" width={100} height={100} />
             <Box sx={{ flexGrow: 1 }}>
               <Skeleton variant="text" height={24} />

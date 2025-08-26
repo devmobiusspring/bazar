@@ -2,26 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box,
-  Typography,
   List,
-  ListItem,
   ListItemText,
-  Chip,
   Container,
-  Divider,
+  ListItemIcon,
+  ListItemButton,
 } from '@mui/material';
-import { SearchRounded, HistoryRounded, TrendingUpRounded } from '@mui/icons-material';
+import { SearchRounded, HistoryRounded } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import TopAppBar from '../../components/layout/TopAppBar';
-import ProductListItem from '../../components/common/ProductListItem';
-import LoadingSkeleton from '../../components/common/LoadingSkeleton';
-import EmptyState from '../../components/common/EmptyState';
-import { Product, SearchResult } from '../../types';
-import { searchProducts } from '../../services/productService';
-import { addToCart } from '../../services/cartService';
-import { toggleFavoriteProduct, getFavoriteProducts } from '../../services/userService';
-import { recentSearches } from '../../services/mockData';
 
 const SearchPage: React.FC = () => {
   const router = useRouter();
@@ -29,85 +19,68 @@ const SearchPage: React.FC = () => {
   const query = searchParams.get('q') || '';
   
   const [searchValue, setSearchValue] = useState(query);
-  const [searchResults, setSearchResults] = useState<SearchResult | null>(null);
-  const [favoriteProducts, setFavoriteProducts] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
+  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
     if (query) {
-      setSearchValue(query);
-      performSearch(query);
-    } else {
-      loadFavorites();
+      // Redirect to results page if there's a query
+      router.push(`/search/results?q=${encodeURIComponent(query)}`);
     }
   }, [query]);
 
-  const loadFavorites = async () => {
-    try {
-      const favorites = await getFavoriteProducts('1');
-      setFavoriteProducts(favorites);
-    } catch (error) {
-      console.error('Error loading favorites:', error);
-    }
-  };
-
-  const performSearch = async (searchQuery: string) => {
-    if (!searchQuery.trim()) return;
-    
-    setLoading(true);
-    setHasSearched(true);
-    
-    try {
-      const results = await searchProducts(searchQuery);
-      setSearchResults(results);
-      
-      // Add to recent searches
-      const recent = JSON.parse(localStorage.getItem('recentSearches') || '[]');
-      const updated = [searchQuery, ...recent.filter((s: string) => s !== searchQuery)].slice(0, 10);
-      localStorage.setItem('recentSearches', JSON.stringify(updated));
-    } catch (error) {
-      console.error('Error searching:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleSearchSubmit = (searchQuery: string) => {
-    router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
-    performSearch(searchQuery);
+    router.push(`/search/results?q=${encodeURIComponent(searchQuery)}`);
   };
 
-  const handleProductClick = (productId: string) => {
-    router.push(`/product/${productId}`);
-  };
-
-  const handleFavoriteClick = async (productId: string) => {
-    try {
-      const isFavorite = await toggleFavoriteProduct('1', productId);
-      if (isFavorite) {
-        setFavoriteProducts([...favoriteProducts, productId]);
-      } else {
-        setFavoriteProducts(favoriteProducts.filter(id => id !== productId));
-      }
-    } catch (error) {
-      console.error('Error toggling favorite:', error);
-    }
-  };
-
-  const handleAddToCart = (productId: string) => {
-    addToCart(productId);
-    // Trigger storage event to update cart count
-    window.dispatchEvent(new Event('storage'));
-  };
 
   const handleRecentSearchClick = (searchQuery: string) => {
-    setSearchValue(searchQuery);
-    router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+    router.push(`/search/results?q=${encodeURIComponent(searchQuery)}`);
   };
 
   const getStoredRecentSearches = () => {
     return JSON.parse(localStorage.getItem('recentSearches') || '[]');
+  };
+
+  const generateAutocompleteSuggestions = (input: string): string[] => {
+    if (!input.trim()) return [];
+    
+    const mockSuggestions = [
+      'small water flosser',
+      'small water flosser for teeth',
+      'small water flossers for teeth travel',
+      'small water flosser for travel',
+      'small water flosser mini',
+      'small water flosser for kids',
+      'small water flossers for teeth travel',
+      'small water flosser for teeth',
+      'small water flosser cordless',
+      'small water flosser rechargeable'
+    ];
+    
+    return mockSuggestions
+      .filter(suggestion => 
+        suggestion.toLowerCase().includes(input.toLowerCase()) && 
+        suggestion.toLowerCase() !== input.toLowerCase()
+      )
+      .slice(0, 8);
+  };
+
+  const getFilteredRecentSearches = (input: string): string[] => {
+    if (!input.trim()) return getStoredRecentSearches();
+    
+    return getStoredRecentSearches().filter((search: string) =>
+      search.toLowerCase().includes(input.toLowerCase())
+    );
+  };
+
+  const handleSearchChange = (value: string) => {
+    setSearchValue(value);
+    if (value.trim()) {
+      setAutocompleteSuggestions(generateAutocompleteSuggestions(value));
+    } else {
+      setAutocompleteSuggestions([]);
+    }
   };
 
   return (
@@ -115,95 +88,38 @@ const SearchPage: React.FC = () => {
       <TopAppBar
         showBack
         searchValue={searchValue}
-        onSearchChange={setSearchValue}
+        onSearchChange={handleSearchChange}
         onSearchSubmit={handleSearchSubmit}
       />
 
-      <Container maxWidth="lg">
-        {!hasSearched ? (
-          // Search suggestions and recent searches
-          <Box sx={{ py: 2 }}>
-            {/* Recent Searches */}
-            {getStoredRecentSearches().length > 0 && (
-              <Box sx={{ mb: 3 }}>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}
-                >
-                  <HistoryRounded sx={{ mr: 1, color: 'text.secondary' }} />
-                  Búsquedas recientes
-                </Typography>
-                <List>
-                  {getStoredRecentSearches().map((search: string, index: number) => (
-                    <ListItem
-                      key={index}
-                      onClick={() => handleRecentSearchClick(search)}
-                      sx={{ py: 1, cursor: 'pointer' }}
-                    >
-                      <ListItemText primary={search} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Box>
-            )}
+      <Container maxWidth="lg" sx={{ p: 0}}>
+        <List sx={{ p: 0}}>
+          {/* Recent Searches - filtered by current input */}
+          {getFilteredRecentSearches(searchValue).map((search: string, index: number) => (
+            <ListItemButton
+              key={`recent-${index}`}
+              onClick={() => handleRecentSearchClick(search)}
+            >
+              <ListItemIcon>
+                <HistoryRounded />
+              </ListItemIcon>
+              <ListItemText primary={search} />
+            </ListItemButton>
+          ))}
 
-            <Divider sx={{ my: 2 }} />
-
-            {/* Popular Searches */}
-            <Box>
-              <Typography
-                variant="subtitle2"
-                sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}
-              >
-                <TrendingUpRounded sx={{ mr: 1, color: 'text.secondary' }} />
-                Búsquedas populares
-              </Typography>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                {recentSearches.map((search, index) => (
-                  <Chip
-                    key={index}
-                    label={search}
-                    onClick={() => handleRecentSearchClick(search)}
-                    size="small"
-                    variant="outlined"
-                  />
-                ))}
-              </Box>
-            </Box>
-          </Box>
-        ) : loading ? (
-          // Loading state
-          <Box sx={{ py: 2 }}>
-            <LoadingSkeleton variant="product-list" count={5} />
-          </Box>
-        ) : searchResults && searchResults.products.length > 0 ? (
-          // Search results
-          <Box sx={{ py: 2 }}>
-            <Typography variant="subtitle2" sx={{ mb: 2, color: 'text.secondary' }}>
-              {searchResults.total} resultados para "{query}"
-            </Typography>
-            
-            <List sx={{ p: 0 }}>
-              {searchResults.products.map((product) => (
-                <ProductListItem
-                  key={product.id}
-                  product={product}
-                  onProductClick={handleProductClick}
-                  onFavoriteClick={handleFavoriteClick}
-                  onAddToCart={handleAddToCart}
-                  isFavorite={favoriteProducts.includes(product.id)}
-                />
-              ))}
-            </List>
-          </Box>
-        ) : hasSearched ? (
-          // No results
-          <EmptyState
-            icon={<SearchRounded />}
-            title="No encontramos resultados"
-            description={`No encontramos resultados para "${query}". Intenta con otras palabras clave.`}
-          />
-        ) : null}
+          {/* Autocomplete Suggestions */}
+          {autocompleteSuggestions.map((suggestion: string, index: number) => (
+            <ListItemButton
+              key={`suggestion-${index}`}
+              onClick={() => handleRecentSearchClick(suggestion)}
+            >
+              <ListItemIcon>
+                <SearchRounded />
+              </ListItemIcon>
+              <ListItemText primary={suggestion} />
+            </ListItemButton>
+          ))}
+        </List>
       </Container>
     </Box>
   );

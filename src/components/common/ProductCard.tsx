@@ -12,17 +12,21 @@ import { Product } from '../../types';
 interface ProductCardProps {
   product: Product;
   onProductClick: (productId: string) => void;
-  discountedPrice?: number;
+  fixWidth?: boolean;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onProductClick,
-  discountedPrice,
+  fixWidth = false,
 }) => {
   const handleCardClick = () => {
     onProductClick(product.id);
   };
+
+  const hasDiscount = product.originalPrice && product.originalPrice > product.price;
+
+  console.log(product)
 
   return (
     <Card
@@ -30,6 +34,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        ...(fixWidth && { 
+          width: '155px',
+          flexShrink: 0 
+        }),
       }}
     >
       <CardActionArea
@@ -64,23 +72,25 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {product.name}
           </Typography>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             <Typography
-              variant="subtitle2"
-              sx={{ color: 'primary.main', fontWeight: 600 }}
+              variant="h6"
+              sx={{
+                ...(hasDiscount && { color: 'primary.main' })
+              }}
             >
-              Q{(discountedPrice || product.price).toLocaleString()}
+              Q{product.price.toLocaleString()}
             </Typography>
-            {discountedPrice && (
+            {hasDiscount && (
               <Typography
-                variant="body2"
+                variant="body1"
                 component="span"
                 sx={{
                   textDecoration: 'line-through',
                   color: 'text.secondary',
                 }}
               >
-                Q{product.price.toLocaleString()}
+                Q{product.originalPrice!.toLocaleString()}
               </Typography>
             )}
           </Box>
