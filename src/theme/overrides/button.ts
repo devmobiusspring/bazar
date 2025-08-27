@@ -7,9 +7,8 @@ const Button = (theme: Theme) => {
       styleOverrides: {
         root: {
           borderRadius: 16,
-          minHeight: 44,
           textTransform: "none",
-          fontWeight: 500,
+          fontWeight: 700,
           '& .MuiButton-startIcon': {
             marginRight: theme.spacing(0.5)
           },

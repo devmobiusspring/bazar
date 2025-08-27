@@ -2,19 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box,
-  Typography,
-  List,
   Container,
+  Typography,
 } from '@mui/material';
-import { SearchRounded } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import TopAppBar from '../../../components/layout/TopAppBar';
-import ProductListItem from '../../../components/common/ProductListItem';
+import DetailedProductCard from '../../../components/common/DetailedProductCard';
 import LoadingSkeleton from '../../../components/common/LoadingSkeleton';
-import EmptyState from '../../../components/common/EmptyState';
-import { SearchResult } from '../../../types';
-import { searchProducts } from '../../../services/productService';
+import { SearchResult, Product } from '../../../types';
+import { searchProducts, getRecommendedProducts } from '../../../services/productService';
 import { addToCart } from '../../../services/cartService';
 import { toggleFavoriteProduct, getFavoriteProducts } from '../../../services/userService';
 
@@ -22,10 +19,11 @@ const SearchResultsPage: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
-  
+
   const [searchValue, setSearchValue] = useState(query);
   const [searchResults, setSearchResults] = useState<SearchResult | null>(null);
   const [favoriteProducts, setFavoriteProducts] = useState<string[]>([]);
+  const [recommendedProducts, setRecommendedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -52,13 +50,19 @@ const SearchResultsPage: React.FC = () => {
 
   const performSearch = async (searchQuery: string) => {
     if (!searchQuery.trim()) return;
-    
+
     setLoading(true);
-    
+
     try {
       const results = await searchProducts(searchQuery);
       setSearchResults(results);
-      
+
+      // If no results found, load recommended products
+      if (results.products.length === 0) {
+        const recommended = await getRecommendedProducts();
+        setRecommendedProducts(recommended);
+      }
+
       // Add to recent searches
       const recent = JSON.parse(localStorage.getItem('recentSearches') || '[]');
       const updated = [searchQuery, ...recent.filter((s: string) => s !== searchQuery)].slice(0, 10);
@@ -110,20 +114,20 @@ const SearchResultsPage: React.FC = () => {
         onSearchSubmit={handleSearchSubmit}
       />
 
-      <Container maxWidth="lg">
+      <Container maxWidth='lg' sx={{ py: 1 }}>
         {loading ? (
           // Loading state
           <LoadingSkeleton variant="product-list" count={5} />
         ) : searchResults && searchResults.products.length > 0 ? (
           // Search results
-          <Box sx={{ py: 2 }}>
-            <Typography variant="subtitle2" sx={{ mb: 2, color: 'text.secondary' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+
+            <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
               {searchResults.total} resultados para "{query}"
             </Typography>
-            
-            <List sx={{ p: 0 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', mx: -2 }}>
               {searchResults.products.map((product) => (
-                <ProductListItem
+                <DetailedProductCard
                   key={product.id}
                   product={product}
                   onProductClick={handleProductClick}
@@ -132,15 +136,34 @@ const SearchResultsPage: React.FC = () => {
                   isFavorite={favoriteProducts.includes(product.id)}
                 />
               ))}
-            </List>
+            </Box>
           </Box>
         ) : (
-          // No results
-          <EmptyState
-            icon={<SearchRounded />}
-            title="No encontramos resultados"
-            description={`No encontramos resultados para "${query}". Intenta con otras palabras clave.`}
-          />
+          // No results with recommendations
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Typography variant="body2" color='text.secondary'>
+              No encontramos resultados para "{query}"
+            </Typography>
+            
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              <Typography variant="h6">
+                Recomendado
+              </Typography>
+              
+              <Box sx={{ display: 'flex', flexDirection: 'column', mx: -2 }}>
+                {recommendedProducts.map((product) => (
+                  <DetailedProductCard
+                    key={product.id}
+                    product={product}
+                    onProductClick={handleProductClick}
+                    onFavoriteClick={handleFavoriteClick}
+                    onAddToCart={handleAddToCart}
+                    isFavorite={favoriteProducts.includes(product.id)}
+                  />
+                ))}
+              </Box>
+            </Box>
+          </Box>
         )}
       </Container>
     </Box>

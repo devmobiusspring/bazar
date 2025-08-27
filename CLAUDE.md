@@ -94,3 +94,7 @@ This is a Next.js 14 e-commerce using App Router with comprehensive TypeScript i
 - Keep Firebase configuration in env variables (no secrets in repo)
 - Follow Material-UI sx prop and styled components patterns
 - Use existing service layer patterns for API interactions
+- When using puppeteer don't start another sever, a dev server is likely already running on port 3000
+- Never override typography styles like line-height, font-weight, etc
+- App primary display language is Spanish
+- Instead of using margin bottom, use container flex box with gap

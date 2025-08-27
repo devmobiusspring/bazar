@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
-  Chip,
   Grid,
   Container,
   Avatar,
@@ -120,45 +119,39 @@ export default function HomePage() {
     );
   }
 
+  const categoryChips = [
+    {
+      label: 'Regalos',
+      value: 'gifts',
+      icon: <RedeemRounded />,
+      onClick: (value: string) => handleCategoryClick(value),
+    },
+    {
+      label: 'Electrónicos',
+      value: 'electronics', 
+      icon: <PhoneAndroidRounded />,
+      onClick: (value: string) => handleCategoryClick(value),
+    },
+    {
+      label: 'Hogar',
+      value: 'home',
+      icon: <RoofingRounded />,
+      onClick: (value: string) => handleCategoryClick(value),
+    },
+    {
+      label: 'Juguetes',
+      value: 'toys',
+      icon: <ToysRounded />,
+      onClick: (value: string) => handleCategoryClick(value),
+    },
+  ];
+
   return (
     <Box>
-      <TopAppBar />
+      <TopAppBar chips={categoryChips} />
 
       <Container maxWidth="lg" sx={{ pb: 2 }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          {/* Categories */}
-          <HScrollContainer sx={{ py: 1 }}>
-            <Chip
-              icon={<RedeemRounded />}
-              label="Regalos"
-              onClick={() => handleCategoryClick('gifts')}
-              size="small"
-            />
-            <Chip
-              icon={<PhoneAndroidRounded />}
-              label="Electrónicos"
-              onClick={() => handleCategoryClick('electronics')}
-              size="small"
-            />
-            <Chip
-              icon={<RoofingRounded />}
-              label="Hogar"
-              onClick={() => handleCategoryClick('home')}
-              size="small"
-            />
-            <Chip
-              icon={<ToysRounded />}
-              label="Juguetes"
-              onClick={() => handleCategoryClick('toys')}
-              size="small"
-            />
-            <Chip
-              icon={<ToysRounded />}
-              label="Juguetes"
-              onClick={() => handleCategoryClick('toys')}
-              size="small"
-            />
-          </HScrollContainer>
 
           {/* Recently Viewed */}
           {recentlyViewed.length > 0 && (

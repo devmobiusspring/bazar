@@ -85,12 +85,11 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   };
 
   // Hide bottom navigation on certain pages
-  const hideBottomNav = !pathname || pathname.includes('/search') || 
-                       pathname.includes('/checkout') ||
+  const hideBottomNav = !pathname || pathname.includes('/checkout') ||
                        pathname.includes('/product/');
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100dvh' }}>
       {/* Main Content */}
       <Box sx={{ flexGrow: 1, pb: hideBottomNav ? 0 : 7 }}>
         {children}

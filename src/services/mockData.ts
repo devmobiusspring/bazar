@@ -243,6 +243,60 @@ export const mockProducts: Product[] = [
       'Acabado': 'Natural'
     },
     tags: ['mesa', 'centro', 'moderna']
+  },
+  {
+    id: '7',
+    name: 'Switch Pro Controller for Nintendo Super Smash Bros Ultimate Edition Gamepad New',
+    description: 'Official Nintendo Switch Pro Controller designed for Super Smash Bros Ultimate',
+    price: 37.98,
+    images: [PRODUCT_IMAGES[0]],
+    category: 'Electrónicos',
+    subcategory: 'Gaming',
+    brand: 'Nintendo',
+    condition: 'new',
+    shopId: '1',
+    rating: 4.8,
+    reviewCount: 127,
+    stock: 17,
+    location: 'United States',
+    shipping: {
+      free: true,
+      estimatedDays: '2-3 días'
+    },
+    specifications: {
+      'Compatibility': 'Nintendo Switch',
+      'Connection': 'Wireless/USB-C',
+      'Battery': 'Up to 40 hours'
+    },
+    tags: ['nintendo', 'switch', 'controller', 'gaming', 'smash bros']
+  },
+  {
+    id: '8',
+    name: 'Official Nintendo Switch 2 Pro Controller',
+    description: 'Brand new Nintendo Switch 2 Pro Controller with enhanced features',
+    price: 64.99,
+    originalPrice: 74.98,
+    images: [PRODUCT_IMAGES[1]],
+    category: 'Electrónicos',
+    subcategory: 'Gaming',
+    brand: 'Nintendo',
+    condition: 'new',
+    shopId: '1',
+    rating: 4.9,
+    reviewCount: 89,
+    stock: 25,
+    location: 'United States',
+    shipping: {
+      free: false,
+      cost: 7.49,
+      estimatedDays: '3-5 días'
+    },
+    specifications: {
+      'Compatibility': 'Nintendo Switch 2',
+      'Connection': 'Wireless/USB-C',
+      'Features': 'HD Rumble, Motion Controls'
+    },
+    tags: ['nintendo', 'switch', 'controller', 'gaming', 'pro']
   }
 ];
 

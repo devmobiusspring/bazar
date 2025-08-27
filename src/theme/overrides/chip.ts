@@ -12,6 +12,11 @@ const Chip = (theme: Theme) => {
           height: 24,
           fontSize: '0.75rem',
         },
+        sizeMedium: {
+          '& .MuiChip-icon': {
+            fontSize: 20,
+          },
+        },
       },
     },
   };

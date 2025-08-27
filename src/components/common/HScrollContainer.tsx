@@ -19,7 +19,9 @@ const HScrollContainer: React.FC<HScrollContainerProps> = ({
         gap,
         overflowX: 'auto',
         mr: -2,
+        ml: -2,
         pr: 2,
+        pl: 2,
         '&::-webkit-scrollbar': { 
           display: 'none' 
         },

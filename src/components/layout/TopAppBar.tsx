@@ -1,19 +1,29 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   AppBar,
-  Toolbar,
   IconButton,
   Typography,
   TextField,
   InputAdornment,
   Box,
+  Chip,
+  useScrollTrigger,
+  Slide,
 } from '@mui/material';
 import {
   ArrowBack,
   SearchRounded,
 } from '@mui/icons-material';
 import { useRouter, usePathname } from 'next/navigation';
+import HScrollContainer from '../common/HScrollContainer';
+
+interface ChipConfig {
+  label: string;
+  value: string;
+  icon?: React.ReactElement;
+  onClick?: (value: string) => void;
+}
 
 interface TopAppBarProps {
   title?: string;
@@ -23,6 +33,7 @@ interface TopAppBarProps {
   searchValue?: string;
   onSearchChange?: (value: string) => void;
   onSearchSubmit?: (value: string) => void;
+  chips?: ChipConfig[];
 }
 
 const TopAppBar: React.FC<TopAppBarProps> = ({
@@ -33,20 +44,11 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
   searchValue = '',
   onSearchChange,
   onSearchSubmit,
+  chips,
 }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
-
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const trigger = useScrollTrigger({ threshold: 52 });
 
   const handleBack = () => {
     router.back();
@@ -59,8 +61,6 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
     }
   };
 
-
-
   const isSearchPage = pathname === '/search';
   const isSubPage = pathname !== '/' && pathname !== '/search';
   const hasBackButton = showBack || isSubPage;
@@ -69,16 +69,20 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
     <AppBar
       position="sticky"
       sx={{
-        backgroundColor: 'background.default',
+        backgroundColor: 'transparent',
         backgroundImage: 'none',
         color: 'text.primary',
         borderBottom: 'none',
         boxShadow: 'none',
+        pointerEvents: 'none'
       }}
     >
       <Box sx={{ 
         px: hasBackButton ? 1 : 2, 
-        py: { xs: 1, md: 2 }
+        py: { xs: 1, md: 2 },
+        backgroundColor: 'background.default',
+        zIndex: 2,
+        pointerEvents: 'initial'
       }}>
         <Box sx={{ display: 'flex', gap: 0.25, alignItems: 'center' }}>
           {/* Optional Back Button for Sub Pages */}
@@ -156,6 +160,31 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
           </Box>
         </Box>
       </Box>
+
+      {/* Chips Container with Slide Animation */}
+      {chips && chips.length > 0 && (
+        <Slide in={!trigger}>
+          <Box
+            sx={{
+              px: hasBackButton ? 1 : 2,
+              pb: 1,
+              backgroundColor: 'background.default',
+              pointerEvents: 'initial'
+            }}
+          >
+            <HScrollContainer>
+              {chips.map((chip) => (
+                <Chip
+                  key={chip.value}
+                  label={chip.label}
+                  icon={chip.icon}
+                  onClick={() => chip.onClick?.(chip.value)}
+                />
+              ))}
+            </HScrollContainer>
+          </Box>
+        </Slide>
+      )}
     </AppBar>
   );
 };
