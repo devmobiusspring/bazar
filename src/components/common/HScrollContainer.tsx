@@ -5,12 +5,14 @@ interface HScrollContainerProps {
   children: React.ReactNode;
   gap?: number | string;
   sx?: SxProps<Theme>;
+  noGutter?: boolean;
 }
 
 const HScrollContainer: React.FC<HScrollContainerProps> = ({
   children,
   gap = 1,
   sx = {},
+  noGutter = false,
 }) => {
   return (
     <Box
@@ -18,10 +20,8 @@ const HScrollContainer: React.FC<HScrollContainerProps> = ({
         display: 'flex',
         gap,
         overflowX: 'auto',
-        mr: -2,
-        ml: -2,
-        pr: 2,
-        pl: 2,
+        mx: noGutter ? 0 : -2,
+        px: 2,
         '&::-webkit-scrollbar': { 
           display: 'none' 
         },

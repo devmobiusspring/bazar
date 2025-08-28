@@ -4,7 +4,14 @@ import {
   Box,
   Container,
   Typography,
+  Menu,
+  MenuItem,
+  ListItemButton,
+  ListItemText,
 } from '@mui/material';
+import {
+  KeyboardArrowDownRounded,
+} from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import TopAppBar from '../../../components/layout/TopAppBar';
@@ -25,7 +32,7 @@ const SearchResultsPage: React.FC = () => {
   const [favoriteProducts, setFavoriteProducts] = useState<string[]>([]);
   const [recommendedProducts, setRecommendedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     if (query) {
       setSearchValue(query);
@@ -104,6 +111,20 @@ const SearchResultsPage: React.FC = () => {
   const handleSearchChange = (value: string) => {
     setSearchValue(value);
   };
+  const searchChips = [
+    {
+      label: 'Precio',
+      value: 'price',
+      icon: <KeyboardArrowDownRounded />,
+      onClick: () => {},
+    },
+    {
+      label: 'Condición',
+      value: 'condition',
+      icon: <KeyboardArrowDownRounded />,
+      onClick: () => {}
+    },
+  ];
 
   return (
     <Box>
@@ -112,6 +133,7 @@ const SearchResultsPage: React.FC = () => {
         searchValue={searchValue}
         onSearchChange={handleSearchChange}
         onSearchSubmit={handleSearchSubmit}
+        chips={searchChips}
       />
 
       <Container maxWidth='lg' sx={{ py: 1 }}>

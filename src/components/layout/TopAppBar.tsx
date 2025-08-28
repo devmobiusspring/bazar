@@ -166,13 +166,13 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
         <Slide in={!trigger}>
           <Box
             sx={{
-              px: hasBackButton ? 1 : 2,
+              // px: hasBackButton ? 1 : 2,
               pb: 1,
               backgroundColor: 'background.default',
               pointerEvents: 'initial'
             }}
           >
-            <HScrollContainer>
+            <HScrollContainer noGutter>
               {chips.map((chip) => (
                 <Chip
                   key={chip.value}
