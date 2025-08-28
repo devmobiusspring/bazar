@@ -22,7 +22,7 @@ interface ChipConfig {
   label: string;
   value: string;
   icon?: React.ReactElement;
-  onClick?: (value: string) => void;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 interface TopAppBarProps {
@@ -178,7 +178,7 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
                   key={chip.value}
                   label={chip.label}
                   icon={chip.icon}
-                  onClick={() => chip.onClick?.(chip.value)}
+                  onClick={chip.onClick}
                 />
               ))}
             </HScrollContainer>

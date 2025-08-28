@@ -6,8 +6,6 @@ import {
   Typography,
   Menu,
   MenuItem,
-  ListItemButton,
-  ListItemText,
 } from '@mui/material';
 import {
   KeyboardArrowDownRounded,
@@ -32,6 +30,12 @@ const SearchResultsPage: React.FC = () => {
   const [favoriteProducts, setFavoriteProducts] = useState<string[]>([]);
   const [recommendedProducts, setRecommendedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Filter dropdown states
+  const [priceAnchorEl, setPriceAnchorEl] = useState<null | HTMLElement>(null);
+  const [conditionAnchorEl, setConditionAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedPriceIndex, setSelectedPriceIndex] = useState(0);
+  const [selectedConditionIndex, setSelectedConditionIndex] = useState(0);
   
   useEffect(() => {
     if (query) {
@@ -111,18 +115,56 @@ const SearchResultsPage: React.FC = () => {
   const handleSearchChange = (value: string) => {
     setSearchValue(value);
   };
+
+  // Filter options
+  const priceOptions = [
+    'Relevante',
+    'Precio más bajo', 
+    'Precio más alto',
+    'Mejor oferta'
+  ];
+  
+  const conditionOptions = [
+    'Nuevo',
+    'Como nuevo',
+    'Usado'
+  ];
+
+  // Menu handlers
+  const handlePriceClick = (event: React.MouseEvent<HTMLElement>) => {
+    setPriceAnchorEl(event.currentTarget);
+  };
+
+  const handleConditionClick = (event: React.MouseEvent<HTMLElement>) => {
+    setConditionAnchorEl(event.currentTarget);
+  };
+
+  const handlePriceMenuItemClick = (index: number) => {
+    setSelectedPriceIndex(index);
+    setPriceAnchorEl(null);
+  };
+
+  const handleConditionMenuItemClick = (index: number) => {
+    setSelectedConditionIndex(index);
+    setConditionAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setPriceAnchorEl(null);
+    setConditionAnchorEl(null);
+  };
   const searchChips = [
     {
       label: 'Precio',
       value: 'price',
       icon: <KeyboardArrowDownRounded />,
-      onClick: () => {},
+      onClick: handlePriceClick,
     },
     {
       label: 'Condición',
       value: 'condition',
       icon: <KeyboardArrowDownRounded />,
-      onClick: () => {}
+      onClick: handleConditionClick,
     },
   ];
 
@@ -188,6 +230,46 @@ const SearchResultsPage: React.FC = () => {
           </Box>
         )}
       </Container>
+
+      {/* Price Filter Menu */}
+      <Menu
+        anchorEl={priceAnchorEl}
+        open={Boolean(priceAnchorEl)}
+        onClose={handleMenuClose}
+        MenuListProps={{
+          role: 'listbox',
+        }}
+      >
+        {priceOptions.map((option, index) => (
+          <MenuItem
+            key={option}
+            selected={index === selectedPriceIndex}
+            onClick={() => handlePriceMenuItemClick(index)}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </Menu>
+
+      {/* Condition Filter Menu */}
+      <Menu
+        anchorEl={conditionAnchorEl}
+        open={Boolean(conditionAnchorEl)}
+        onClose={handleMenuClose}
+        MenuListProps={{
+          role: 'listbox',
+        }}
+      >
+        {conditionOptions.map((option, index) => (
+          <MenuItem
+            key={option}
+            selected={index === selectedConditionIndex}
+            onClick={() => handleConditionMenuItemClick(index)}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </Menu>
     </Box>
   );
 };
