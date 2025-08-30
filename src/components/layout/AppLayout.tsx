@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, BottomNavigation, BottomNavigationAction } from '@mui/material';
+import { Box, BottomNavigation, BottomNavigationAction, Badge, BadgeProps, styled } from '@mui/material';
 import {
   HomeRounded,
   StoreRounded,
@@ -9,6 +9,7 @@ import {
   SellRounded,
 } from '@mui/icons-material';
 import { usePathname, useRouter } from 'next/navigation';
+import { useCartItems } from '../../hooks';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -19,6 +20,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const router = useRouter();
   const lastScrollY = useRef(0);
   const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
+  const { cartItemCount } = useCartItems();
 
   const getBottomNavValue = () => {
     if (!pathname) return 0;
@@ -85,8 +87,19 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   };
 
   // Hide bottom navigation on certain pages
-  const hideBottomNav = !pathname || pathname.includes('/checkout') ||
-                       pathname.includes('/product/');
+  const hideBottomNav = !pathname
+  // const hideBottomNav = !pathname || pathname.includes('/checkout') ||
+  //                      pathname.includes('/product/');
+
+  const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+    '& .MuiBadge-badge': {
+      right: -3,
+      top: 12,
+      border: `2px solid`,
+      borderColor: 'background.default',
+      padding: '0 3px',
+    },
+  }));
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100dvh' }}>
@@ -121,7 +134,15 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
           />
           <BottomNavigationAction
             label="Carrito"
-            icon={<ShoppingCartRounded />}
+            icon={
+              <StyledBadge 
+                badgeContent={cartItemCount} 
+                color="error"
+                invisible={cartItemCount === 0}
+              >
+                <ShoppingCartRounded />
+              </StyledBadge>
+            }
           />
           <BottomNavigationAction
             label="Perfil"

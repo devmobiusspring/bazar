@@ -3,6 +3,9 @@ import { PaletteMode, PaletteOptions as _PaletteOptions } from "@mui/material";
 
 type PaletteOptions = _PaletteOptions & {
   dividerDark?: string;
+  background: {
+    muted?: string;
+  }
 };
 
 const DefaultPalette = (mode: PaletteMode): PaletteOptions => {
@@ -59,6 +62,7 @@ const DefaultPalette = (mode: PaletteMode): PaletteOptions => {
       background: {
         paper: "#ffffff",
         default: "#FFFFFF",
+        muted: 'rgba(0, 0, 0, 0.04)'
       },
       action: {
         active: "#2E2F34",
@@ -126,6 +130,7 @@ const DefaultPalette = (mode: PaletteMode): PaletteOptions => {
       background: {
         paper: "#121212",
         default: "#121212",
+        muted: 'rgba(255, 255, 255, 0.04)'
       },
       action: {
         active: "#FFFFFF",

@@ -3,6 +3,10 @@ import { getProductById } from './productService';
 
 const CART_STORAGE_KEY = 'bazarDigitalCart';
 
+const dispatchCartUpdateEvent = (): void => {
+  window.dispatchEvent(new CustomEvent('cartUpdated'));
+};
+
 export const getCartItems = (): CartItem[] => {
   const stored = localStorage.getItem(CART_STORAGE_KEY);
   return stored ? JSON.parse(stored) : [];
@@ -19,6 +23,7 @@ export const addToCart = (productId: string, quantity: number = 1): void => {
   }
   
   localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+  dispatchCartUpdateEvent();
 };
 
 export const updateCartItemQuantity = (productId: string, quantity: number): void => {
@@ -32,16 +37,19 @@ export const updateCartItemQuantity = (productId: string, quantity: number): voi
       items[index].quantity = quantity;
     }
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+    dispatchCartUpdateEvent();
   }
 };
 
 export const removeFromCart = (productId: string): void => {
   const items = getCartItems().filter(item => item.productId !== productId);
   localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+  dispatchCartUpdateEvent();
 };
 
 export const clearCart = (): void => {
   localStorage.removeItem(CART_STORAGE_KEY);
+  dispatchCartUpdateEvent();
 };
 
 export const getCartTotal = async (): Promise<{ subtotal: number; shipping: number; total: number }> => {

@@ -98,3 +98,4 @@ This is a Next.js 14 e-commerce using App Router with comprehensive TypeScript i
 - Never override typography styles like line-height, font-weight, etc
 - App primary display language is Spanish
 - Instead of using margin bottom, use container flex box with gap
+- Don't test with puppeteer unless explicitly asked to

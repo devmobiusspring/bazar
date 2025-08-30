@@ -150,7 +150,7 @@ export default function HomePage() {
     <Box>
       <TopAppBar chips={categoryChips} />
 
-      <Container maxWidth="lg" sx={{ pb: 2 }}>
+      <Container maxWidth="lg" sx={{ pt: 1, pb: 2 }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
 
           {/* Recently Viewed */}

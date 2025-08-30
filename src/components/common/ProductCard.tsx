@@ -26,8 +26,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const hasDiscount = product.originalPrice && product.originalPrice > product.price;
 
-  console.log(product)
-
   return (
     <Card
       sx={{
